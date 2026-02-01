@@ -78,3 +78,5 @@ Primary calculation endpoint for all sling and rigging evaluations.
     "round_distances_up": true
   }
 }
+
+## Response Payload (Valid Lift)
