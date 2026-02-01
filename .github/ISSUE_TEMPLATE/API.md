@@ -76,6 +76,10 @@ Primary calculation endpoint for all sling and rigging evaluations.
     "round_distances_up": true
   }
 }
+
+## Response Payload (Valid Lift)
+
+```json
 {
   "status": "valid",
   "blocked": false,
@@ -112,12 +116,5 @@ Primary calculation endpoint for all sling and rigging evaluations.
   "warnings": [
     "Sling angle approaching minimum recommended threshold"
   ],
-  "disclaimer": "Load acceptability and lug integrity are the user’s responsibility."
-}
-{
-  "status": "invalid",
-  "blocked": true,
-  "reason": "hook_height_exceeded",
-  "details": "Required hook height exceeds crane limit by 4 ft",
   "disclaimer": "Load acceptability and lug integrity are the user’s responsibility."
 }
