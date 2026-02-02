@@ -151,7 +151,7 @@ export function calculateSling(
       recommended_wll_lbs: Math.ceil(tension * 1.5),
     });
 
-    if (tension < governingTension) {
+    if (tension > governingTension) {
       governingTension = tension;
       governingTensionId = `${sling.id}-leg-1`;
     }
