@@ -47,6 +47,10 @@ Primary calculation endpoint for all sling and rigging evaluations.
 ## Request Payload
 ```json
 {
+  ...
+}
+'''md
+## ValidLiftResult
   "units": "imperial",
   "load": {
     "weight_lbs": 20000,
