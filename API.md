@@ -50,6 +50,7 @@ and **DO NOT govern sling geometry or selection**.
 ## Format
 - Request: `application/json`
 - Response: `application/json`
+
 ---
 
 ## Endpoint
