@@ -77,15 +77,11 @@ export const SlingCalculationRequestSchema = z.object({
   load: LoadSchema,
 
   geometry: z.object({
-    pick_points: z
-      .array(PickPointSchema)
-      .min(1, "At least one pick point is required"),
+    pick_points: z.array(PickPointSchema),
     distances_authoritative: z.literal(true),
   }),
 
-  slings: z
-    .array(SlingSchema)
-    .min(1, "At least one sling configuration is required"),
+  slings: z.array(SlingSchema),
 
   hardware: z.object({
     shackles: z.array(ShackleSchema).optional(),
