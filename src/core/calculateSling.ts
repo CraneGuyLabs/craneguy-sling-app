@@ -5,6 +5,11 @@ import { SlingCalculationRequest } from "../validation/slingSchema";
  * ----------------------------------
  * Field-correct sling calculations with safety enforcement.
  * Assumes input has passed Zod validation.
+ *
+ * FIXED:
+ * - Multi-pick-point geometry (no 2-point assumption)
+ * - Per-leg angle + tension evaluation
+ * - True governing leg identification
  */
 
 /* ----------------------------------
@@ -76,19 +81,14 @@ const degFromHorizontal = (rise: number, run: number) =>
    Rigging Self-Weight Tables (v1)
 ---------------------------------- */
 
-/**
- * Conservative average weights per foot (lbs/ft)
- * These are industry-safe placeholders until
- * manufacturer-specific tables are introduced.
- */
 const SLING_WEIGHT_LBS_PER_FT: Record<string, number> = {
   wire_rope: 1.5,
   chain: 2.2,
   synthetic: 0.4,
 };
 
-const SHACKLE_WEIGHT_LBS = 35; // average large shackle
-const TOP_RIGGING_ALLOWANCE_LBS = 50; // master link / rings
+const SHACKLE_WEIGHT_LBS = 35;
+const TOP_RIGGING_ALLOWANCE_LBS = 50;
 
 /* ----------------------------------
    Main Calculation
@@ -103,89 +103,110 @@ export function calculateSling(
   const totalLoadLbs = load.weight_lbs;
 
   let governingAngle = Infinity;
-  let governingAngleId = "";
+  let governingLegId = "";
 
   const angleResults: ValidLiftResult["results"]["angles"] = [];
   const tensionResults: ValidLiftResult["results"]["tensions"] = [];
 
   /* -----------------------------
-     Geometry + Sling Calculations
+     Geometry + Per-Leg Calculations
   ------------------------------*/
 
   for (const sling of slings) {
-    const horizontalSpan =
-      Math.abs(pickPoints[1].x_ft - pickPoints[0].x_ft);
+    const legs = sling.legs;
+    const loadPerLeg = totalLoadLbs / legs;
 
-    const verticalRise = pickPoints[0].z_ft;
+    pickPoints.forEach((point, index) => {
+      const legNumber = index + 1;
 
-    const angleDeg = degFromHorizontal(verticalRise, horizontalSpan / 2);
-    const roundedAngle = roundUpFt(angleDeg);
+      const horizontalRun = Math.sqrt(
+        Math.pow(point.x_ft, 2) + Math.pow(point.y_ft, 2)
+      );
 
-    angleResults.push({
-      sling_id: sling.id,
-      leg: 1,
-      angle_deg_from_horizontal: roundedAngle,
+      const verticalRise = point.z_ft;
+
+      const angleDeg = degFromHorizontal(verticalRise, horizontalRun);
+      const roundedAngle = roundUpFt(angleDeg);
+
+      angleResults.push({
+        sling_id: sling.id,
+        leg: legNumber,
+        angle_deg_from_horizontal: roundedAngle,
+      });
+
+      if (angleDeg < governingAngle) {
+        governingAngle = angleDeg;
+        governingLegId = `${sling.id}-leg-${legNumber}`;
+      }
+
+      if (angleDeg < 60) {
+        return;
+      }
+
+      const tension =
+        loadPerLeg / Math.sin((angleDeg * Math.PI) / 180);
+
+      tensionResults.push({
+        sling_id: sling.id,
+        leg: legNumber,
+        tension_lbs: Math.ceil(tension),
+        required_wll_lbs: Math.ceil(tension),
+        recommended_wll_lbs: Math.ceil(tension * 1.5),
+      });
+
+      if (sling.wll_lbs < tension) {
+        return;
+      }
     });
+  }
 
-    if (angleDeg < governingAngle) {
-      governingAngle = angleDeg;
-      governingAngleId = `${sling.id}-leg-1`;
-    }
+  if (governingAngle < 60) {
+    return {
+      status: "invalid",
+      blocked: true,
+      reason: "sling_angle_below_minimum",
+      details: `Minimum sling angle ${governingAngle.toFixed(
+        1
+      )}° is below 60°`,
+      disclaimer:
+        "Load acceptability and lug integrity are the user’s responsibility.",
+    };
+  }
 
-    if (angleDeg < 60) {
-      return {
-        status: "invalid",
-        blocked: true,
-        reason: "sling_angle_below_minimum",
-        details: `Sling angle ${angleDeg.toFixed(
-          1
-        )}° is below 60° minimum`,
-        disclaimer:
-          "Load acceptability and lug integrity are the user’s responsibility.",
-      };
-    }
-
-    const tension =
-      totalLoadLbs / (2 * Math.sin((angleDeg * Math.PI) / 180));
-
-    tensionResults.push({
-      sling_id: sling.id,
-      leg: 1,
-      tension_lbs: Math.ceil(tension),
-      required_wll_lbs: Math.ceil(tension),
-      recommended_wll_lbs: Math.ceil(tension * 1.5),
-    });
-
-    if (sling.wll_lbs < tension) {
-      return {
-        status: "invalid",
-        blocked: true,
-        reason: "wll_exceeded",
-        details: `Sling ${sling.id} WLL is insufficient`,
-        disclaimer:
-          "Load acceptability and lug integrity are the user’s responsibility.",
-      };
-    }
+  if (
+    tensionResults.some(
+      (t) =>
+        slings.find((s) => s.id === t.sling_id)!.wll_lbs < t.tension_lbs
+    )
+  ) {
+    return {
+      status: "invalid",
+      blocked: true,
+      reason: "wll_exceeded",
+      details: "One or more sling legs exceed WLL",
+      disclaimer:
+        "Load acceptability and lug integrity are the user’s responsibility.",
+    };
   }
 
   /* -----------------------------
-     Rigging Self-Weight Calculation
+     Rigging Self-Weight
   ------------------------------*/
 
   let riggingWeightLbs = 0;
 
-  // Sling self-weight
   for (const sling of slings) {
-    const weightPerFt = SLING_WEIGHT_LBS_PER_FT[sling.type];
-    riggingWeightLbs += sling.length_ft * weightPerFt * sling.legs;
+    riggingWeightLbs +=
+      sling.length_ft *
+      SLING_WEIGHT_LBS_PER_FT[sling.type] *
+      sling.legs;
   }
 
-  // Shackles
   if (hardware?.shackles) {
-    riggingWeightLbs += hardware.shackles.length * SHACKLE_WEIGHT_LBS;
+    riggingWeightLbs +=
+      hardware.shackles.length * SHACKLE_WEIGHT_LBS;
   }
 
-  // Top rigging allowance
   if (hardware?.top_rigging) {
     riggingWeightLbs += TOP_RIGGING_ALLOWANCE_LBS;
   }
@@ -196,8 +217,10 @@ export function calculateSling(
      Hook Height Check
   ------------------------------*/
 
+  const maxPickZ = Math.max(...pickPoints.map((p) => p.z_ft));
+
   const requiredHookHeight = roundUpFt(
-    pickPoints[0].z_ft + crane_interface.block_clearance_ft
+    maxPickZ + crane_interface.block_clearance_ft
   );
 
   if (requiredHookHeight > crane_interface.hook_height_limit_ft) {
@@ -228,8 +251,8 @@ export function calculateSling(
     blocked: false,
     summary: {
       governing_condition: "sling_angle",
-      governing_element_id: governingAngleId,
-      why: "Minimum allowable sling angle reached first",
+      governing_element_id: governingLegId,
+      why: "Minimum allowable sling angle governs the lift",
     },
     results: {
       angles: angleResults,
