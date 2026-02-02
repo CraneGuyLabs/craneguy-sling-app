@@ -48,6 +48,7 @@ Primary calculation endpoint for all sling and rigging evaluations.
 ## Request Payload
 
 ```json
+
 {
   "units": "imperial",
   "load": {
