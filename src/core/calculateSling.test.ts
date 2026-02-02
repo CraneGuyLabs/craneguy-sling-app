@@ -14,8 +14,8 @@ const baseRequest: SlingCalculationRequest = {
   },
   geometry: {
     pick_points: [
-      { id: "A", x_ft: 0, y_ft: 0, z_ft: 6 },
-      { id: "B", x_ft: 10, y_ft: 0, z_ft: 6 },
+      { id: "A", x_ft: 5, y_ft: 0, z_ft: 6 },
+      { id: "B", x_ft: -5, y_ft: 0, z_ft: 6 },
     ],
     distances_authoritative: true,
   },
@@ -50,28 +50,58 @@ const baseRequest: SlingCalculationRequest = {
    Tests
 ---------------------------------- */
 
-describe("calculateSling — v1", () => {
-  it("returns a valid lift for a compliant configuration", () => {
+describe("calculateSling — v1 (per-leg logic)", () => {
+  it("returns a valid lift and evaluates each leg independently", () => {
     const result = calculateSling(baseRequest);
 
     expect(result.status).toBe("valid");
     expect(result.blocked).toBe(false);
 
     if (result.status === "valid") {
-      expect(result.results.angles[0].angle_deg_from_horizontal).toBeGreaterThanOrEqual(60);
-      expect(result.results.tensions[0].tension_lbs).toBeGreaterThan(0);
-      expect(result.results.hook_height.within_limit).toBe(true);
+      expect(result.results.angles.length).toBe(2);
+      expect(result.results.tensions.length).toBe(2);
+
+      result.results.angles.forEach((a) => {
+        expect(a.angle_deg_from_horizontal).toBeGreaterThanOrEqual(60);
+      });
+
+      result.results.tensions.forEach((t) => {
+        expect(t.tension_lbs).toBeGreaterThan(0);
+        expect(t.recommended_wll_lbs).toBeGreaterThan(t.required_wll_lbs);
+      });
     }
   });
 
-  it("blocks the lift when sling angle is below 60°", () => {
+  it("correctly identifies the governing leg by minimum angle", () => {
+    const asymmetricRequest: SlingCalculationRequest = {
+      ...baseRequest,
+      geometry: {
+        ...baseRequest.geometry,
+        pick_points: [
+          { id: "A", x_ft: 10, y_ft: 0, z_ft: 6 }, // worse angle
+          { id: "B", x_ft: 3, y_ft: 0, z_ft: 6 },  // better angle
+        ],
+      },
+    };
+
+    const result = calculateSling(asymmetricRequest);
+
+    expect(result.status).toBe("valid");
+
+    if (result.status === "valid") {
+      expect(result.summary.governing_element_id).toBe("S1-leg-1");
+      expect(result.summary.governing_condition).toBe("sling_angle");
+    }
+  });
+
+  it("blocks the lift if ANY leg angle is below 60°", () => {
     const badAngleRequest: SlingCalculationRequest = {
       ...baseRequest,
       geometry: {
         ...baseRequest.geometry,
         pick_points: [
-          { id: "A", x_ft: 0, y_ft: 0, z_ft: 1 },
-          { id: "B", x_ft: 30, y_ft: 0, z_ft: 1 },
+          { id: "A", x_ft: 30, y_ft: 0, z_ft: 1 }, // bad leg
+          { id: "B", x_ft: 3, y_ft: 0, z_ft: 6 },
         ],
       },
     };
@@ -83,7 +113,7 @@ describe("calculateSling — v1", () => {
     expect(result.reason).toBe("sling_angle_below_minimum");
   });
 
-  it("blocks the lift when sling WLL is insufficient", () => {
+  it("blocks the lift if ANY leg exceeds sling WLL", () => {
     const lowWllRequest: SlingCalculationRequest = {
       ...baseRequest,
       slings: [
@@ -107,8 +137,8 @@ describe("calculateSling — v1", () => {
       geometry: {
         ...baseRequest.geometry,
         pick_points: [
-          { id: "A", x_ft: 0, y_ft: 0, z_ft: 40 },
-          { id: "B", x_ft: 10, y_ft: 0, z_ft: 40 },
+          { id: "A", x_ft: 5, y_ft: 0, z_ft: 40 },
+          { id: "B", x_ft: -5, y_ft: 0, z_ft: 40 },
         ],
       },
       crane_interface: {
@@ -122,6 +152,18 @@ describe("calculateSling — v1", () => {
     expect(result.status).toBe("invalid");
     expect(result.blocked).toBe(true);
     expect(result.reason).toBe("hook_height_exceeded");
+  });
+
+  it("includes rigging self-weight in total lift calculation", () => {
+    const result = calculateSling(baseRequest);
+
+    if (result.status === "valid") {
+      expect(result.results.weights.rigging_lbs).toBeGreaterThan(0);
+      expect(result.results.weights.total_lift_lbs).toBe(
+        result.results.weights.load_lbs +
+          result.results.weights.rigging_lbs
+      );
+    }
   });
 
   it("always returns the required disclaimer text", () => {
