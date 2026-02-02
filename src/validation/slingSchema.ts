@@ -71,54 +71,7 @@ const OptionsSchema = z.object({
 /* -----------------------------
    Main Request Schema
 ------------------------------*/
-export const SlingCalculationRequestSchema = z
-  .object({
-    units: z.literal("imperial"),
 
-    load: LoadSchema,
-
-    geometry: z.object({
-      pick_points: z
-        .array(PickPointSchema)
-        .min(1, "At least one pick point is required"),
-      distances_authoritative: z.literal(true),
-    }),
-
-    slings: z
-      .array(SlingSchema)
-      .min(1, "At least one sling configuration is required"),
-
-    hardware: z.object({
-      shackles: z.array(ShackleSchema).optional(),
-      top_rigging: TopRiggingSchema.optional(),
-    }),
-
-    crane_interface: CraneInterfaceSchema,
-
-    options: OptionsSchema,
-  })
-  .superRefine((data, ctx) => {
-    data.slings.forEach((sling, slingIndex) => {
-      if (data.geometry.pick_points.length !== sling.legs) {
-        ctx.addIssue({
-          path: ["slings", slingIndex, "legs"],
-          code: z.ZodIssueCode.custom,
-          message: `Sling "${sling.id}" has ${sling.legs} legs but ${data.geometry.pick_points.length} pick points were provided`,
-        });
-      }
-    });
-  });
-  .superRefine((data, ctx) => {
-    data.slings.forEach((sling, slingIndex) => {
-      if (data.geometry.pick_points.length !== sling.legs) {
-        ctx.addIssue({
-          path: ["slings", slingIndex, "legs"],
-          code: z.ZodIssueCode.custom,
-          message: `Sling "${sling.id}" has ${sling.legs} legs but ${data.geometry.pick_points.length} pick points were provided`,
-        });
-      }
-    });
-  });
 /* -----------------------------
    Exported Type (for calculations)
 ------------------------------*/
