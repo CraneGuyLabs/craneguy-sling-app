@@ -50,3 +50,10 @@ and **DO NOT govern sling geometry or selection**.
 ## Format
 - Request: `application/json`
 - Response: `application/json`
+---
+
+## Endpoint
+
+### POST /sling/calculate
+
+Primary calculation endpoint for all sling and rigging evaluations.
