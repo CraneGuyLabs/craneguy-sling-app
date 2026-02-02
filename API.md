@@ -88,4 +88,71 @@ Primary calculation endpoint for all sling and rigging evaluations.
     "auto_sling_length": false,
     "round_distances_up": true
   }
-}
+}---
+
+## Governing Logic
+
+All outputs are limited by the **controlling condition**, including but not limited to:
+- Sling leg tension
+- Sling angle
+- Hardware capacity
+- Geometry
+- Lateral pressure
+- Clearance constraints
+
+The governing condition is explicitly identified as:
+
+> **This is what limits the lift.**
+
+---
+
+## Safety Rules (Hard Gates)
+
+The API enforces the following non-bypassable safety rules:
+
+- Invalid sling angles are blocked
+- Exceeded sling or hardware WLLs are blocked
+- Clearance violations are blocked or warned per configuration
+- Practical sling-length cap of **40 ft** is enforced
+- Automatic mitigation is attempted when lateral pressure exceeds limits
+- If lateral pressure cannot be reduced within limits, a spreader bar or lift beam is required
+- Informational outputs never override governing rigging logic
+
+---
+
+## Output Guarantees
+
+When a valid configuration exists, the API guarantees:
+
+- Governing leg and governing condition are always identified
+- Minimum required rigging is calculated from actual geometry and tension
+- Recommended rigging is sized at **≥ 1.5×** calculated sling tension
+- Load-sharing is applied only where explicitly allowed
+- Rigging and hardware self-weight are included in total load calculations
+- Shackles are selected using **carbon steel shackles only**, with a **6:1 design factor**
+- Shackle sizing follows:
+  - **WLL ≥ applied load**, or
+  - **WLL ≥ sling WLL** when matching hardware to a known sling
+- The **1.25× connection factor** is applied **only** when sizing shackles from calculated sling tension
+
+---
+
+## Versioning Rule
+
+- **v1.x**: No breaking changes  
+- Any change to:
+  - Calculation logic
+  - Geometry handling
+  - Safety rules
+  - Governing-condition logic
+  - Payload or response structure  
+
+  → **Requires v2.0**
+
+No exceptions.
+
+---
+
+## Disclaimer
+
+Load acceptability and lug integrity are the user’s responsibility.
