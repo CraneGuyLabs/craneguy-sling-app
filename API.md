@@ -47,7 +47,11 @@ Primary calculation endpoint for all sling and rigging evaluations.
 
 ## Request Payload
 
+```md
 ```json
+{
+  ...
+}
 
 {
   "units": "imperial",
@@ -91,6 +95,11 @@ Primary calculation endpoint for all sling and rigging evaluations.
   }
 }
 ## ValidLiftResult
+
+```json
+{
+  ...
+}
 {
   "status": "valid",
   "blocked": false,
