@@ -44,3 +44,8 @@ and **DO NOT govern sling geometry or selection**.
 ## Base URL
 
 /api/v1
+---
+
+## Format
+- Request: `application/json`
+- Response: `application/json`
