@@ -58,3 +58,11 @@ and **DO NOT govern sling geometry or selection**.
 ### POST /sling/calculate
 
 Primary calculation endpoint for all sling and rigging evaluations.
+
+---
+
+## Request Payload
+```json
+{
+ ...
+}
