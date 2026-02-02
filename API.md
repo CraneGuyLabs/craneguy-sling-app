@@ -44,4 +44,3 @@ Hook height and block/headroom values are accepted **for informational and valid
 Primary calculation endpoint for all sling and rigging evaluations.
 
 ---
-
