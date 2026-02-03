@@ -69,7 +69,6 @@ Primary calculation endpoint for all sling and rigging evaluations.
 
 Returned when a valid, non-blocked configuration exists.
 
-```json
 {
   "status": "valid",
   "blocked": false,
