@@ -92,7 +92,7 @@ export function calculateSling(
       )}° is below ${MIN_SLING_ANGLE_DEG}°`,
       disclaimer:
         "Load acceptability and lug integrity are the user’s responsibility.",
-    };
+    });
   }
 
   if (
