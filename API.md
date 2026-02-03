@@ -110,3 +110,18 @@ Returned when a valid, non-blocked configuration exists.
   "warnings": [],
   "disclaimer": "Load acceptability and lug integrity are the user’s responsibility."
 }
+
+---
+
+## BlockedLiftResult
+
+Returned when the configuration violates a safety rule and is blocked.
+
+```json
+{
+  "status": "invalid",
+  "blocked": true,
+  "reason": "sling_angle_below_minimum",
+  "details": "Minimum sling angle 42.3° is below allowed limit",
+  "disclaimer": "Load acceptability and lug integrity are the user’s responsibility."
+}
