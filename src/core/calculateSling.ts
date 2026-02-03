@@ -83,7 +83,7 @@ export function calculateSling(
   }
 
   if (governingAngle <= MIN_SLING_ANGLE_DEG) {
-    return {SlingCalculationResponseSchema.parse({
+    return SlingCalculationResponseSchema.parse({
       status: "invalid",
       blocked: true,
       reason: "sling_angle_below_minimum",
