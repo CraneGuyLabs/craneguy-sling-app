@@ -1,14 +1,15 @@
+import { Router } from "express";
 import { SlingCalculationRequestSchema } from "../validation/slingSchema";
 import { SlingCalculationResponseSchema } from "./responseSchemas";
 import { calculateSling } from "./calculateSling";
 
-import type { Request, Response } from "express";
+const router = Router();
 
 /**
  * POST /api/v1/sling/calculate
- * Sling App API v1 — Route Handler
+ * Sling App API v1
  */
-export function slingCalculateHandler(req: Request, res: Response) {
+router.post("/calculate", (req, res) => {
   // 1. Validate request
   const request = SlingCalculationRequestSchema.parse(req.body);
 
@@ -19,6 +20,8 @@ export function slingCalculateHandler(req: Request, res: Response) {
   const validatedResponse =
     SlingCalculationResponseSchema.parse(result);
 
-  // 4. Return result
-  return res.status(200).json(validatedResponse);
-}
+  // 4. Return response
+  res.status(200).json(validatedResponse);
+});
+
+export default router;
