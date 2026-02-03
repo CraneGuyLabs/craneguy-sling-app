@@ -1,3 +1,4 @@
+import { SlingCalculationRequest } from "../validation/slingSchema";
 import {
   SlingCalculationResponse,
   SlingCalculationResponseSchema,
