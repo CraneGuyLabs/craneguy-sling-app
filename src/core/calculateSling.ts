@@ -1,3 +1,7 @@
+import {
+  SlingCalculationResponse,
+  SlingCalculationResponseSchema,
+} from "./responseSchemas";
 import { SlingCalculationRequest } from "../validation/slingSchema";
 
 /**
@@ -6,55 +10,6 @@ import { SlingCalculationRequest } from "../validation/slingSchema";
  * BELOW-THE-HOOK ONLY
  * Hook height is informational / validation only.
  */
-
-export type SlingCalculationResult =
-  | ValidLiftResult
-  | BlockedLiftResult;
-
-type ValidLiftResult = {
-  status: "valid";
-  blocked: false;
-  summary: {
-    governing_condition: string;
-    governing_element_id: string;
-    why: string;
-  };
-  results: {
-    angles: {
-      sling_id: string;
-      leg: number;
-      angle_deg_from_horizontal: number;
-    }[];
-    tensions: {
-      sling_id: string;
-      leg: number;
-      tension_lbs: number;
-      required_wll_lbs: number;
-      recommended_wll_lbs: number;
-    }[];
-    weights: {
-      load_lbs: number;
-      rigging_lbs: number;
-      total_lift_lbs: number;
-      total_lift_metric_tons: number;
-    };
-    hook_height: {
-      required_ft: number;
-      limit_ft: number;
-      within_limit: boolean;
-    };
-  };
-  warnings: string[];
-  disclaimer: string;
-};
-
-type BlockedLiftResult = {
-  status: "invalid";
-  blocked: true;
-  reason: string;
-  details: string;
-  disclaimer: string;
-};
 
 const lbsToMetricTons = (lbs: number) =>
   +(lbs / 2204.62).toFixed(2);
