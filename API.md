@@ -66,9 +66,8 @@ Primary calculation endpoint for all sling and rigging evaluations.
 {
  ...
 }
-```
----
 
+---
 ## ValidLiftResult
 
 Returned when a valid, non-blocked configuration exists.
