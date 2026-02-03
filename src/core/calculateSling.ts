@@ -3,6 +3,7 @@ import {
   SlingCalculationResponse,
   SlingCalculationResponseSchema,
 } from "./responseSchemas";
+import type { ValidLiftResult } from "./responseSchemas";
 
 /**
  * Sling App API v1 — Calculation Core
