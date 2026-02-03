@@ -67,7 +67,6 @@ Primary calculation endpoint for all sling and rigging evaluations.
  ...
 }
 
----
 ```
 ## ValidLiftResult
 
