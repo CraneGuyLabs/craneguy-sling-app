@@ -31,7 +31,7 @@ const TOP_RIGGING_ALLOWANCE_LBS = 50;
 
 export function calculateSling(
   request: SlingCalculationRequest
-): SlingCalculationResult {
+): SlingCalculationResponse {
   const { load, geometry, slings, hook_interface, hardware } = request;
 
   const pickPoints = geometry.pick_points;
@@ -83,7 +83,7 @@ export function calculateSling(
   }
 
   if (governingAngle <= MIN_SLING_ANGLE_DEG) {
-    return {
+    return {SlingCalculationResponseSchema.parse({
       status: "invalid",
       blocked: true,
       reason: "sling_angle_below_minimum",
