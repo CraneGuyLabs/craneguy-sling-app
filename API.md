@@ -62,12 +62,9 @@ Primary calculation endpoint for all sling and rigging evaluations.
 ---
 
 ## Request Payload
-```json
-{
- ...
-}
 
-```
+---
+
 ## ValidLiftResult
 
 Returned when a valid, non-blocked configuration exists.
