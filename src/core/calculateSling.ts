@@ -2,7 +2,7 @@ import {
   SlingCalculationResponse,
   SlingCalculationResponseSchema,
 } from "./responseSchemas";
-import { SlingCalculationRequest } from "../validation/slingSchema";
+import { SlingCalculationResponse } from "../validation/slingSchema";
 
 /**
  * Sling App API v1 — Calculation Core
