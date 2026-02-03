@@ -110,6 +110,7 @@ Returned when a valid, non-blocked configuration exists.
   "disclaimer": "Load acceptability and lug integrity are the user’s responsibility."
 }
 
+
 ## BlockedLiftResult
 
 Returned when the configuration violates a safety rule and is blocked.
