@@ -1,4 +1,8 @@
-# CraneGuy Sling App
+# CraneGuyLabs Sling App
+
+CraneGuyLabs Sling App is a safety-focused engineering tool designed for riggers, lift planners, and crane professionals to validate sling geometry, angles, tensions, hardware selection, and governing conditions before execution.
+
+A professional, below-the-hook rigging calculator with governing-condition validation for real-world field use.
 
 Geometry-based sling angle and rigging tension calculator built for real jobsite use.
 
