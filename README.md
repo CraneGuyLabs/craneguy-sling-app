@@ -4,8 +4,6 @@ CraneGuyLabs Sling App is a safety-focused engineering tool designed for riggers
 
 A professional, below-the-hook rigging calculator with governing-condition validation for real-world field use.
 
-Geometry-based sling angle and rigging tension calculator built for real jobsite use.
-
 ---
 
 ## Purpose
@@ -18,17 +16,17 @@ Provide calculation-correct sling angles, leg tensions, and governing-condition 
 
 This is a **below-the-hook rigging calculator**.
 
-Included:
-’• Multi-leg sling configurations  
-• Governing-leg determination  
-• Minimum required and recommended rigging sizing  
-• Hook height and block/headroom clearance checks (informational and validation only)  
-• Rigging and hardware weight accounting  
+### Included
+- Multi-leg sling configurations  
+- Governing-leg determination  
+- Minimum required and recommended rigging sizing  
+- Hook height and block/headroom clearance checks (informational and validation only)  
+- Rigging and hardware weight accounting  
 
-Out of scope unless explicitly stated:
-- Crane selection or capacity
-- Crane setup or configuration
-- Lift planning beyond below-the-hook rigging
+### Out of Scope (unless explicitly stated)
+- Crane selection or capacity  
+- Crane setup or configuration  
+- Lift planning beyond below-the-hook rigging  
 
 All rigging is assumed to occur **at the hook and below**.
 
@@ -39,6 +37,7 @@ All rigging is assumed to occur **at the hook and below**.
 All outputs are limited by the controlling condition — including sling angle, leg tension, hardware capacity, geometry, lateral pressure, or clearance — **whichever governs first**.
 
 The governing condition is explicitly identified as:
+
 > *This is what limits the lift.*
 
 ---
