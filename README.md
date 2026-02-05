@@ -1,8 +1,8 @@
 # CraneGuyLabs Sling App
 
-CraneGuyLabs Sling App is a safety-focused engineering tool designed for riggers, lift planners, and crane professionals to validate sling geometry, angles, tensions, hardware selection, and governing conditions before execution.
+CraneGuyLabs Sling App is a professional, safety-focused rigging calculator designed for riggers, lift planners, and crane professionals to validate sling geometry, angles, leg tensions, hardware selection, and governing conditions before execution.
 
-A professional, below-the-hook rigging calculator with governing-condition validation for real-world field use.
+This application provides calculation assistance only and does not replace professional judgment, engineering oversight, or site-specific safety procedures.
 
 ---
 
@@ -14,18 +14,21 @@ Provide calculation-correct sling angles, leg tensions, and governing-condition 
 
 ## Scope
 
-This is a **below-the-hook rigging calculator**.
+CraneGuyLabs Sling App is a **below-the-hook rigging calculator**.
 
 ### Included
 - Multi-leg sling configurations  
 - Governing-leg determination  
+- Geometry-based sling angle calculation  
+- Automatic leg tension calculation per sling  
 - Minimum required and recommended rigging sizing  
-- Hook height and block/headroom clearance checks (informational and validation only)  
 - Rigging and hardware weight accounting  
+- Lateral pressure evaluation with automatic mitigation  
+- Hook height and block/headroom clearance checks (informational and validation only)  
 
 ### Out of Scope (unless explicitly stated)
-- Crane selection or capacity  
-- Crane setup or configuration  
+- Crane selection or crane capacity  
+- Crane setup, placement, or configuration  
 - Lift planning beyond below-the-hook rigging  
 
 All rigging is assumed to occur **at the hook and below**.
@@ -53,6 +56,16 @@ The governing condition is explicitly identified as:
 
 ---
 
+## Safety & Disclosure
+
+If you discover a security vulnerability, calculation error, or logic flaw that could affect rigging safety or load-handling decisions, report it responsibly.
+
+**Email:** security@craneguy.app
+
+Do not open public issues for safety-critical findings.
+
+---
+
 ## Status
 
 Active development.  
@@ -61,5 +74,7 @@ Field-use logic is **frozen** per the Sling App master specification.
 ---
 
 ## Disclaimer
+
+This application provides calculation assistance only and does not replace professional judgment, engineering oversight, or site-specific safety procedures.
 
 Load acceptability and lug integrity are the user’s responsibility.
