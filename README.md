@@ -79,14 +79,22 @@ Published sling WLL values apply only to slings that are:
 - Properly stored  
 - Inspected in accordance with manufacturer recommendations  
 
+### Sling Bearing & Contact Surface Radius
+Some standards and local codes recommend that the contact surface between a sling and any hardware (such as shackles, hooks, or lugs) have a diameter of curvature at least **two times the diameter of the sling material**.
+
+This practice helps maintain rated sling capacity and reduces the risk of premature sling damage or failure.
+
+The Sling App does not verify contact surface geometry. Users must ensure that shackles, hooks, and load attachment points provide adequate bearing surface for the sling being used.
+
 ### App Scope Limitation
 This app calculates **below-the-hook geometry, angles, and forces only**.  
 It does **not** verify:
 - Sling condition  
 - Inspection status  
 - Manufacturer tagging accuracy  
+- Contact surface geometry  
 
-**Load acceptability and sling condition are the user’s responsibility.**
+**Load acceptability, sling condition, and interface suitability are the user’s responsibility.**
 
 </details>
 
