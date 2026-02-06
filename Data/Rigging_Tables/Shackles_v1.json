@@ -1,1 +1,40 @@
+{
+  "table_id": "craneguy_shackle_table_v1",
+  "design_factor": "5:1",
+  "units": {
+    "wll": "lb",
+    "weight": "lb"
+  },
+  "allowed_types": [
+    "carbon_steel",
+    "alloy_bolt_type"
+  ],
+  "selection_rule": {
+    "required_load_formula": "max(sling_wll, tension * 1.25)",
+    "selection_method": "first_row_with_wll_greater_or_equal"
+  },
+  "rows": [
+    { "nominal_size_in": "3/16", "tonnage": 0.33, "wll_lb": 734, "weight_lb_each": 0.06, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "1/4",  "tonnage": 0.5,  "wll_lb": 1102, "weight_lb_each": 0.10, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "5/16", "tonnage": 0.75, "wll_lb": 1653, "weight_lb_each": 0.19, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "3/8",  "tonnage": 1,    "wll_lb": 2204, "weight_lb_each": 0.31, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "7/16", "tonnage": 1.5,  "wll_lb": 3306, "weight_lb_each": 0.38, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "1/2",  "tonnage": 2,    "wll_lb": 4409, "weight_lb_each": 0.72, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "5/8",  "tonnage": 3.25, "wll_lb": 7165, "weight_lb_each": 1.37, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "3/4",  "tonnage": 4.75, "wll_lb": 10471, "weight_lb_each": 2.35, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "7/8",  "tonnage": 6.5,  "wll_lb": 14330, "weight_lb_each": 3.62, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "1",    "tonnage": 8.5,  "wll_lb": 18739, "weight_lb_each": 5.03, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "1-1/8","tonnage": 9.5,  "wll_lb": 20943, "weight_lb_each": 7.41, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "1-1/4","tonnage": 12,   "wll_lb": 26455, "weight_lb_each": 9.50, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "1-3/8","tonnage": 13.5, "wll_lb": 29762, "weight_lb_each": 13.53, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "1-1/2","tonnage": 17,   "wll_lb": 37478, "weight_lb_each": 17.20, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "1-3/4","tonnage": 25,   "wll_lb": 55115, "weight_lb_each": 27.78, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "2",    "tonnage": 35,   "wll_lb": 77161, "weight_lb_each": 45.00, "material_type": "carbon_steel", "notes": null },
+    { "nominal_size_in": "2-1/2","tonnage": 55,   "wll_lb": 121254,"weight_lb_each": 85.75, "material_type": "carbon_steel", "notes": null },
 
+    { "nominal_size_in": "2-1/2", "tonnage": 85,  "wll_lb": 187392, "weight_lb_each": 103, "material_type": "alloy_bolt_type", "notes": "Alloy bolt-type shackle" },
+    { "nominal_size_in": "3",     "tonnage": 120, "wll_lb": 264554, "weight_lb_each": 162, "material_type": "alloy_bolt_type", "notes": "Alloy bolt-type shackle" },
+    { "nominal_size_in": "3-1/2", "tonnage": 150, "wll_lb": 330693, "weight_lb_each": 268, "material_type": "alloy_bolt_type", "notes": "Alloy bolt-type shackle" },
+    { "nominal_size_in": "4",     "tonnage": 175, "wll_lb": 385808, "weight_lb_each": 332, "material_type": "alloy_bolt_type", "notes": "Alloy bolt-type shackle" }
+  ]
+}
