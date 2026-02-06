@@ -1,1 +1,123 @@
-
+{
+  "table_id": "synthetic_round_slings_v1",
+  "material": "polyester",
+  "design_factor": "5:1",
+  "notes": [
+    "All values are reference only.",
+    "Always verify sling tag before use.",
+    "Color coding is not a standardized rating system."
+  ],
+  "units": {
+    "wll": "lb",
+    "length": "ft-in",
+    "diameter": "in",
+    "width": "in"
+  },
+  "rows": [
+    {
+      "sleeve_color": "purple",
+      "wll": { "vertical": 2600, "choker": 2100, "basket": 5200 },
+      "minimum_manufactured_length": "1-6",
+      "relaxed_diameter_in": 0.5,
+      "width_at_load_in": 1.68
+    },
+    {
+      "sleeve_color": "green",
+      "wll": { "vertical": 5300, "choker": 4200, "basket": 10600 },
+      "minimum_manufactured_length": "1-6",
+      "relaxed_diameter_in": 0.8,
+      "width_at_load_in": 1.82
+    },
+    {
+      "sleeve_color": "yellow",
+      "wll": { "vertical": 8400, "choker": 6700, "basket": 16800 },
+      "minimum_manufactured_length": "2-0",
+      "relaxed_diameter_in": 1.1,
+      "width_at_load_in": 2.04
+    },
+    {
+      "sleeve_color": "tan",
+      "wll": { "vertical": 10600, "choker": 8500, "basket": 21200 },
+      "minimum_manufactured_length": "3-0",
+      "relaxed_diameter_in": 1.1,
+      "width_at_load_in": 2.1
+    },
+    {
+      "sleeve_color": "red",
+      "wll": { "vertical": 13200, "choker": 10600, "basket": 26400 },
+      "minimum_manufactured_length": "3-0",
+      "relaxed_diameter_in": 1.32,
+      "width_at_load_in": 2.5
+    },
+    {
+      "sleeve_color": "white",
+      "wll": { "vertical": 16800, "choker": 13400, "basket": 33600 },
+      "minimum_manufactured_length": "3-0",
+      "relaxed_diameter_in": 1.65,
+      "width_at_load_in": 3.2
+    },
+    {
+      "sleeve_color": "blue",
+      "wll": { "vertical": 21200, "choker": 17000, "basket": 42400 },
+      "minimum_manufactured_length": "3-0",
+      "relaxed_diameter_in": 1.72,
+      "width_at_load_in": 3.13
+    },
+    {
+      "sleeve_color": "orange",
+      "wll": { "vertical": 25000, "choker": 20000, "basket": 50000 },
+      "minimum_manufactured_length": "3-0",
+      "relaxed_diameter_in": 1.9,
+      "width_at_load_in": 3.0
+    },
+    {
+      "sleeve_color": "grey",
+      "wll": { "vertical": 31000, "choker": 24800, "basket": 62000 },
+      "minimum_manufactured_length": "3-0",
+      "relaxed_diameter_in": 2.15,
+      "width_at_load_in": 3.5
+    },
+    {
+      "sleeve_color": "maroon",
+      "wll": { "vertical": 40000, "choker": 32000, "basket": 80000 },
+      "minimum_manufactured_length": "8-0",
+      "relaxed_diameter_in": 2.2,
+      "width_at_load_in": 3.21
+    },
+    {
+      "sleeve_color": "brown",
+      "wll": { "vertical": 53000, "choker": 42400, "basket": 106000 },
+      "minimum_manufactured_length": "8-0",
+      "relaxed_diameter_in": 2.75,
+      "width_at_load_in": 4.62
+    },
+    {
+      "sleeve_color": "olive",
+      "wll": { "vertical": 66000, "choker": 52800, "basket": 132000 },
+      "minimum_manufactured_length": "8-0",
+      "relaxed_diameter_in": 3.12,
+      "width_at_load_in": 5.25
+    },
+    {
+      "sleeve_color": "black",
+      "wll": { "vertical": 90000, "choker": 72000, "basket": 180000 },
+      "minimum_manufactured_length": "8-0",
+      "relaxed_diameter_in": 3.62,
+      "width_at_load_in": 6.0
+    },
+    {
+      "sleeve_color": "black",
+      "wll": { "vertical": 100000, "choker": 80000, "basket": 200000 },
+      "minimum_manufactured_length": "8-0",
+      "relaxed_diameter_in": 3.62,
+      "width_at_load_in": 6.0
+    },
+    {
+      "sleeve_color": "black",
+      "wll": { "vertical": 110000, "choker": 88000, "basket": 220000 },
+      "minimum_manufactured_length": "8-0",
+      "relaxed_diameter_in": 3.62,
+      "width_at_load_in": 6.0
+    }
+  ]
+}
