@@ -1,1 +1,124 @@
+{
+  "audit_view_version": "v1",
+  "audit_id": "UUID-GENERATED-AT-RUNTIME",
+  "timestamp_utc": "YYYY-MM-DDTHH:MM:SSZ",
 
+  "lift_summary": {
+    "load_weight_lb": 20000,
+    "load_dimensions_ft": {
+      "length": 18,
+      "width": 6,
+      "height": 6
+    },
+    "center_of_gravity": {
+      "offset_x_ft": 0,
+      "offset_y_ft": 0,
+      "assumed": true
+    }
+  },
+
+  "geometry_inputs": {
+    "pick_points": 2,
+    "bottom_connection": "spreader_bar",
+    "top_connection": "hook",
+    "spreader_bar": {
+      "length_ft": 20,
+      "connection_spacing_ft": 16,
+      "weight_lb": 400
+    },
+    "sling_lengths_ft": {
+      "bottom_left": 10,
+      "bottom_right": 10,
+      "top_left": 12,
+      "top_right": 12
+    }
+  },
+
+  "force_results": {
+    "leg_tensions_lb": {
+      "bottom_left": 5835,
+      "bottom_right": 5835,
+      "top_left": 11260,
+      "top_right": 11260
+    },
+    "sling_angles_deg": {
+      "bottom_left": 62,
+      "bottom_right": 62,
+      "top_left": 68,
+      "top_right": 68
+    },
+    "lateral_force_lb": {
+      "bottom_left": 0,
+      "bottom_right": 0
+    }
+  },
+
+  "hardware_selection": {
+    "bottom_slings": {
+      "required_load_lb": 5835,
+      "selection_rule": "first_row_with_wll_greater_or_equal",
+      "table_source": "slings_v1.json",
+      "selected_row": {
+        "category": "synthetic_round",
+        "rated_capacity_lb": 6000,
+        "wll_lb": 6000,
+        "weight_lb_per_ft": 0.40
+      },
+      "length_ft_each": 10,
+      "quantity": 2,
+      "individual_weight_lb": 4.0,
+      "total_weight_lb": 8.0
+    },
+
+    "bottom_shackles": {
+      "required_load_lb": 7294,
+      "connection_factor": 1.25,
+      "table_source": "shackles_v1.json",
+      "selected_row": {
+        "nominal_size_in": "3/4",
+        "wll_lb": 10471,
+        "weight_lb_each": 2.35,
+        "material_type": "carbon_steel"
+      },
+      "quantity": 6,
+      "total_weight_lb": 14.1
+    },
+
+    "top_shackles": {
+      "required_load_lb": 14075,
+      "connection_factor": 1.25,
+      "table_source": "shackles_v1.json",
+      "selected_row": {
+        "nominal_size_in": "1",
+        "wll_lb": 18739,
+        "weight_lb_each": 5.03,
+        "material_type": "carbon_steel"
+      },
+      "quantity": 2,
+      "total_weight_lb": 10.06
+    }
+  },
+
+  "weight_summary": {
+    "weights_lb": {
+      "load": 20000,
+      "spreader_bar": 400,
+      "slings": 16,
+      "shackles": 24.16
+    },
+    "total_hook_load_lb": 20440.16
+  },
+
+  "governing_condition": {
+    "governing_item": "top_shackles",
+    "reason": "Highest utilization vs WLL",
+    "statement": "This is what limits the lift."
+  },
+
+  "validation_status": {
+    "status": "PASS",
+    "blocked": false,
+    "warnings": [],
+    "blocked_reasons": []
+  }
+}
