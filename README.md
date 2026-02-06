@@ -56,6 +56,42 @@ The governing condition is explicitly identified as:
 
 ---
 
+## Safety Notes
+
+<details>
+<summary><strong>Safety Notes (Read Before Use)</strong></summary>
+
+### Reference Values Only
+All sling working load limits (WLL) shown in this app are **reference values only**.
+
+### Sling Tag Requirement
+Do **not** use any sling if the work load limit (WLL) tag is:
+- Missing  
+- Illegible  
+- Incomplete  
+
+If the sling tag cannot be verified, the sling shall not be used regardless of calculated capacity.
+
+### Sling Condition
+Published sling WLL values apply only to slings that are:
+- New or in acceptable condition  
+- Undamaged  
+- Properly stored  
+- Inspected in accordance with manufacturer recommendations  
+
+### App Scope Limitation
+This app calculates **below-the-hook geometry, angles, and forces only**.  
+It does **not** verify:
+- Sling condition  
+- Inspection status  
+- Manufacturer tagging accuracy  
+
+**Load acceptability and sling condition are the user’s responsibility.**
+
+</details>
+
+---
+
 ## Safety & Disclosure
 
 If you discover a security vulnerability, calculation error, or logic flaw that could affect rigging safety or load-handling decisions, report it responsibly.
