@@ -268,3 +268,59 @@ describe("runRiggingEngine — top rigging independence", () => {
       .toContain("This is what limits the lift");
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — shackle sizing with connection factor
+ * ---------------------------------------------------------------------
+ * These tests verify that shackles are sized correctly using:
+ * - Calculated sling tension
+ * - Single 1.25× connection factor
+ * - No additional derating or stacking
+ */
+
+describe("runRiggingEngine — shackle sizing", () => {
+  it("sizes shackles using calculated tension × 1.25 connection factor", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 16000,
+
+      pickPoints: [
+        { x: -6, y: 0, z: 0 },
+        { x:  6, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 12,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      }
+    });
+
+    expect(result.legs).toHaveLength(2);
+
+    const leg = result.legs[0];
+
+    expect(leg.tensionLb).toBeGreaterThan(0);
+
+    /**
+     * Shackle load must be calculated as:
+     * shackleLoad = slingTension × 1.25
+     */
+    expect(leg.shackle).toBeDefined();
+
+    expect(leg.shackle.appliedLoadLb)
+      .toBeCloseTo(leg.tensionLb * 1.25, 1);
+
+    /**
+     * Selected shackle WLL must meet or exceed applied load.
+     */
+    expect(leg.shackle.wllLb)
+      .toBeGreaterThanOrEqual(leg.shackle.appliedLoadLb);
+
+    /**
+     * No additional connection factor may be stacked.
+     */
+    expect(leg.shackle.connectionFactor).toBe(1.25);
+  });
+});
