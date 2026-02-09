@@ -370,3 +370,50 @@ describe("runRiggingEngine — shackle material and minimum size enforcement", (
     expect(leg.shackle.material).not.toBe("alloy");
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — shackle connection factor enforcement
+ * ---------------------------------------------------------------------
+ * These tests verify that:
+ * - Shackles are sized using a 1.25× connection factor
+ *   when selected from calculated sling tension
+ * - No additional multipliers are applied
+ */
+
+describe("runRiggingEngine — shackle connection factor enforcement", () => {
+  it("applies a single 1.25× connection factor when sizing shackles from sling tension", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 10000,
+
+      pickPoints: [
+        { x: -5, y: 0, z: 0 },
+        { x:  5, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 10,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      }
+    });
+
+    const leg = result.legs[0];
+
+    expect(leg.tensionLb).toBeDefined();
+    expect(leg.shackle).toBeDefined();
+
+    const expectedRequiredCapacity =
+      leg.tensionLb * 1.25;
+
+    expect(leg.shackle.requiredCapacityLb)
+      .toBeCloseTo(expectedRequiredCapacity, 1);
+
+    /**
+     * Ensure no additional safety factor is applied
+     * beyond the single 1.25× connection factor.
+     */
+    expect(leg.shackle.appliedFactor).toBe(1.25);
+  });
+});
