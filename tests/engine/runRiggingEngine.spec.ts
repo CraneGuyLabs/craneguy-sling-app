@@ -468,3 +468,68 @@ describe("runRiggingEngine — shackle sizing from sling WLL", () => {
       .toBe(1);
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — sling material preference and sharp-edge override
+ * ---------------------------------------------------------------------
+ * These tests verify that:
+ * - Synthetic slings are preferred by default
+ * - Sharp edges override synthetic preference
+ * - Wire rope slings are selected when sharp edges are present
+ */
+
+describe("runRiggingEngine — sling material preference", () => {
+  it("selects synthetic round slings when no sharp edges are present", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 6000,
+
+      pickPoints: [
+        { x: -4, y: 0, z: 0 },
+        { x:  4, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 10,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical",
+        sharpEdgesPresent: false
+      }
+    });
+
+    const leg = result.legs[0];
+
+    expect(leg.sling).toBeDefined();
+    expect(leg.sling.material).toBe("synthetic_round");
+  });
+
+  it("overrides synthetic slings and selects wire rope when sharp edges are present", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 6000,
+
+      pickPoints: [
+        { x: -4, y: 0, z: 0 },
+        { x:  4, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 10,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical",
+        sharpEdgesPresent: true
+      }
+    });
+
+    const leg = result.legs[0];
+
+    expect(leg.sling).toBeDefined();
+
+    // Synthetic slings must NOT be selected on sharp edges
+    expect(leg.sling.material).not.toBe("synthetic_round");
+
+    // Wire rope slings are preferred on sharp edges
+    expect(leg.sling.material).toBe("wire_rope");
+  });
+});
