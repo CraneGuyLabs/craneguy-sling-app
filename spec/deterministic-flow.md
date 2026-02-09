@@ -1,308 +1,292 @@
-# CraneGuyLabs Sling App  
-## Deterministic Evaluation Flow  
-### v2.14 — ORDERED & UPDATED (FIELD-USE LOCKED)
+# Sling App — Deterministic Evaluation Flow  
+VERSION: 2.15  
+STATUS: FIELD-USE LOCKED  
 
 ---
 
-## FLOW 0 — Scope Confirmation (Locked)
+## FLOW 0 — Scope Confirmation
 
-Below-the-hook rigging only.
+This application evaluates **below-the-hook rigging only**.
 
-Crane selection, crane capacity, setup, operation, swing, ground conditions, and personnel qualification remain the user’s responsibility.
+All crane-related responsibilities, including crane selection, setup, operation, ground conditions, weather, signaling, personnel qualifications, and lift execution, remain solely the responsibility of the user.
 
-The Sling App evaluates below-the-hook rigging geometry, forces, **material selection**, and hardware only.
-
----
-
-## FLOW 1 — Configuration Setup (Locked)
-
-Select:
-- Number of cranes  
-- Pick points per load  
-- Spreader bars or lift beams per crane  
-- Shared lugs  
-- Shared load-side shackles  
+The Sling App evaluates:
+- Rigging geometry
+- Applied forces
+- Sling material suitability
+- Hardware sizing
+- Rigging weight accumulation
 
 ---
 
-## FLOW 1A — Multi-Crane Isolation Gate (Locked)
+## FLOW 1 — Configuration Setup
 
-Each crane is evaluated in a fully independent calculation context.
+The user defines:
+- Number of cranes involved
+- Number of pick points on the load
+- Use of spreader bars or lift beams
 
-- Geometry, sling length, sling angle, sling tension, **material selection**, and hardware sizing never propagate between cranes  
-- Only load allocation may reference other cranes  
-
----
-
-## FLOW 2 — Load Allocation & Distribution (Locked)
-
-Distribute load based on:
-- Center of gravity (CG)  
-- Declared shared lugs  
-
-Assign a load portion to each crane.
-
-Rigging, hardware, bar, and beam weights are excluded at this stage.
+Shared load features such as common lugs or shared load-side shackles must be explicitly declared.
 
 ---
 
-## FLOW 3 — Geometry Input (Locked)
+## FLOW 1A — Multi-Crane Isolation Gate
 
-Input:
-- Longitudinal distances (L)  
-- Transverse distances (T)  
-- Vertical pick depth (V)  
+Each crane is evaluated in a fully isolated calculation environment.
 
-Rules:
-- Vertical pick depth (V) is measured from the TOP of the load to the pick-point centerline  
-- User-entered pick-to-pick distances override load dimensions  
+Geometry, sling selection, angles, tensions, material choices, and hardware sizing **do not transfer between cranes**.
+
+Only the distribution of the load itself may reference other cranes.
 
 ---
 
-## FLOW 4 — Geometry Resolution (Locked)
+## FLOW 2 — Load Allocation & Distribution
 
-For each sling leg:
-- Resolve effective L and T  
-- Compute vertical rise using V  
-- Derive sling length unless user override is active  
-- Apply automatic hidden geometry adjustments for shackles, lugs, and hardware stack-up  
+The applied load is distributed based on:
+- Center of gravity
+- Declared shared lugs
 
----
-
-## FLOW 5 — Sling Definition & Material Selection (Locked)
-
-Define sling type per leg.
-
-- Bottom rigging and top rigging are defined separately  
-- Effective bearing-to-bearing length includes all hidden geometry adjustments  
+At this stage:
+- Only applied load is allocated
+- Rigging weight, hardware weight, and bar or beam weight are excluded
 
 ---
 
-### FLOW 5A — Edge Condition Declaration (Locked)
+## FLOW 3 — Geometry Input
 
-User must declare edge condition:
+The user inputs:
+- Longitudinal distance (L)
+- Transverse distance (T)
+- Vertical pick depth (V)
 
-**Edge Condition**
-- ☐ No sharp edges (default)  
-- ☐ Sharp edges present  
+Vertical pick depth is always measured from the **top of the load** down to the **centerline of the pick point**.
 
-This declaration is authoritative for material selection.
+If direct pick-to-pick distances are entered, those values override derived load dimensions.
 
 ---
 
-### FLOW 5B — Material Selection Preference (Locked)
+## FLOW 4 — Geometry Resolution
 
-#### Normal Conditions (No Sharp Edges)
+For each sling leg, the app resolves effective geometry using provided inputs.
 
-When **Sharp Edges = FALSE**, the app recommends slings in the following order:
+Sling length is automatically derived unless the user applies a manual override.
 
+Hidden geometry adjustments for shackles, lugs, and hardware stack-up are applied automatically and transparently.
+
+---
+
+## FLOW 5 — Sling Definition & Material Selection
+
+Each sling leg is defined individually and classified as:
+- Bottom rigging, or
+- Top rigging
+
+Effective sling length is calculated bearing-to-bearing, including all hardware adjustments.
+
+---
+
+## FLOW 5A — Edge Condition Declaration
+
+The user must declare whether sharp edges are present.
+
+The app never assumes edge protection exists unless explicitly provided by the user.
+
+---
+
+## FLOW 5B — Material Selection Preference
+
+Default material preference:
 1. Synthetic round slings  
-2. **Steel slings (wire rope)**  
+2. Wire rope slings  
 3. Chain slings  
 
-This order affects recommendations only and never overrides safety gates.
+When sharp edges are declared:
+- Wire rope slings are preferred
+- Chain slings are secondary
+- Synthetic slings require explicit user acceptance with warning acknowledgment
 
 ---
 
-#### Sharp-Edge Conditions
+## FLOW 5C — Terminology Normalization
 
-When **Sharp Edges = TRUE**, the app enforces the following preference:
+The term **“steel chokers”** is accepted as field terminology referring to **wire rope slings**.
 
-1. **Steel slings (wire rope)**  
-2. Chain slings  
-3. Synthetic slings (lowest priority)  
-
-Rules:
-- Synthetic slings are not preferred  
-- Synthetic slings may still be displayed  
-- Selecting a synthetic sling requires:
-  - Explicit user override  
-  - A clear warning  
-
-**Required warning text (or equivalent):**
-
-> “Sharp edges detected. Steel (wire rope) slings or chain slings are preferred. Synthetic slings require adequate edge protection and user acceptance.”
-
-The app must never assume edge protection is present.
+This term does not indicate hitch type and does not restrict sling configuration.
 
 ---
 
-### FLOW 5C — Terminology Normalization (Locked)
+## FLOW 6 — Sling Angle Calculation
 
-- The term **“steel choker(s)”** is accepted as universal field terminology  
-- “Steel choker(s)” refers to **wire rope slings**, regardless of configuration  
-- The term does **not** imply a choker hitch  
+Sling angle is measured at the pick point relative to a **horizontal reference line** parallel to the pick-to-pick direction.
 
-Sling configuration (vertical / basket / choker):
-- Is selected independently  
-- Is governed later by geometry and rules  
-
-This rule applies to UI, PDFs, training material, and internal logic.
+Each sling leg is evaluated independently.
 
 ---
 
-## FLOW 6 — Sling Angle Calculation (Locked)
+## FLOW 6A — Rigging Zone Classification
 
-For each sling leg:
-- Measure sling angle at the pick point  
-- Angle is measured from a horizontal reference line parallel to the pick-to-pick axis  
-- Each sling leg is evaluated independently  
+Sling legs are classified based on connection point:
+- Bottom-of-hook or bottom-of-bar
+- Top-of-bar or top-of-beam
 
----
-
-## FLOW 6A — Rigging Zone Classification (Locked)
-
-Classify each sling leg as:
-- Bottom Rigging (Load → Hook or Load → Bar)  
-- Top Rigging (Hook → Bar or Hook → Beam)  
-
-Classification governs minimum allowable sling angles.
+This classification governs minimum allowable sling angles.
 
 ---
 
-## FLOW 7 — Angle Safety Gates (Locked)
+## FLOW 7 — Angle Safety Gates
 
-- Bottom-of-hook or bottom-of-bar slings must be greater than 45 degrees from horizontal  
-- Top-of-bar or top-of-beam slings must be at least 60 degrees from horizontal  
+- Bottom-of-hook or bottom-of-bar slings must exceed **45° from horizontal**
+- Top-of-bar or top-of-beam slings must be **≥ 60° from horizontal**
 
-Violations block the lift.
-
----
-
-## FLOW 8 — Sling Tension Calculation (Locked)
-
-For each sling leg:
-T = W_assigned / sin(theta)
-- Calculated per sling leg  
-- Identify governing sling leg per crane  
-- Governing status is informational only and does not propagate sizing  
+Any violation blocks the lift configuration.
 
 ---
 
-## FLOW 9 — Lateral Force Evaluation (Locked)
+## FLOW 8 — Sling Tension Calculation
 
-Evaluate lateral force as a percentage of total load:
+Sling tension is calculated individually for each sling leg using resolved geometry and assigned load.
 
-- ≤10% → caution  
-- >10% → automatic mitigation required  
-
----
-
-## FLOW 10 — Automatic Mitigation Loop (Locked)
-
-If lateral force exceeds 10%:
-- Evaluate longer sling lengths up to the practical 40-ft cap  
-- Recompute geometry, angles, tensions, and lateral force  
-
-If lateral force cannot be reduced to ≤10%:
-- Require a spreader bar or lift beam  
-- Bar or beam weight inclusion is mandatory  
+The governing sling is identified for informational purposes only.
 
 ---
 
-## FLOW 11 — Sling Capacity Selection (Locked)
+## FLOW 9 — Lateral Force Evaluation
 
-For each sling leg (top and bottom), display:
-- Sling length  
-- Sling angle  
-- Calculated sling tension  
-- Minimum required sling WLL  
-- Recommended sling WLL  
+Lateral force is evaluated as a percentage of the total applied load.
 
-Material preference is applied **before** capacity selection.
+- ≤ 10%: Cautionary warning
+- > 10%: Automatic mitigation required
 
 ---
 
-### FLOW 11A — Minimum Sling Requirement
+## FLOW 10 — Automatic Mitigation Loop
 
-Sling WLL must be greater than or equal to calculated sling tension.
+The app automatically evaluates longer sling options up to a **maximum practical length of 40 ft**.
 
----
+Geometry, angles, tensions, and lateral force are recalculated for each option.
 
-### FLOW 11B — Recommended Sling (1.5× Rule)
-
-Recommended sling WLL = 1.5 × calculated sling tension.
-
-Rules:
-- Applied once  
-- Applies only to slings  
-- Rounded up to the next available standard sling size  
-- Does not propagate to shackles  
+If lateral force cannot be reduced to acceptable limits:
+- A spreader bar or lift beam is required
+- Bar or beam weight must be provided and included
 
 ---
 
-## FLOW 12 — Shackle Load Determination (Locked)
+## FLOW 11 — Sling Capacity Selection
 
-### FLOW 12A — Shackle Load Aggregation
+For each sling leg, the app displays:
+- Sling length
+- Sling angle
+- Calculated tension
+- Minimum required WLL
+- Recommended WLL
 
-For each shackle:
-- Sum all terminating sling leg tensions  
-
----
-
-### FLOW 12B — Shared Load-Side Shackle Aggregation
-
-When multiple sling legs terminate at the same physical shackle:
-- Sum all contributing sling tensions  
-- Sling legs remain independent  
-- Only the shackle is shared  
+Material preference is applied before capacity sizing.
 
 ---
 
-## FLOW 13 — Shackle Selection (Final, Locked)
+## FLOW 11A — Minimum Sling Requirement
 
-Rules:
-- Carbon steel shackles only  
-- Pounds-first evaluation  
-- 5:1 design factor  
-- Alloy shackles are not permitted  
-
-Shackle selection must satisfy both:
-1. Shackle WLL ≥ applied shackle load  
-2. If a sling is selected, shackle WLL ≥ sling WLL  
-
-Notes:
-- No 1.5× factor applies to shackles  
-- No 1.25× factor applies when matching a known sling WLL  
+The selected sling must have a working load limit **≥ calculated sling tension**.
 
 ---
 
-## FLOW 14 — Weight Accumulation (Locked)
+## FLOW 11B — Recommended Sling Capacity
 
-Add to each crane’s hook load:
-- Sling weight  
-- Shackle weight  
-- Bar or beam weight  
+A recommended sling capacity equal to **1.5× calculated sling tension** is provided.
+
+This factor applies **only to slings** and is never applied to shackles.
+
+---
+
+## FLOW 11C — Wire Rope Bend Radius (D/d) Validation
+
+### Scope
+This validation applies **only** to:
+- Wire rope slings
+- Basket hitch configurations
+- Any condition where the sling body is bent around hardware or structural members
+
+This validation does not apply to:
+- Synthetic slings
+- Chain slings
+- Vertical or choker hitches
+
+### Definitions
+- **d** = Nominal wire rope diameter
+- **D** = Effective bearing diameter of the smallest contact surface
+
+If multiple contact points exist, the **smallest D governs**.
+
+### Assumed Manufacturer Basis
+Unless splice type is explicitly declared, the app assumes **mechanical splice requirements**.
+
+### Minimum D/d Requirements
+- Mechanical splice: **D/d ≥ 20**
+- Hand-tucked splice (if declared): **D/d ≥ 10**
+
+### Evaluation Logic
+- If **D/d ≥ required minimum**, basket capacity remains valid
+- If **D/d < required minimum**, basket capacity is invalid
+
+### Failure Handling
+If the requirement is not satisfied:
+- Basket-hitch capacity selection is **blocked**
+- Governing message is displayed:
+  > “Wire rope basket ratings assume a minimum bend radius. The current D/d ratio does not meet required limits. Published basket capacity may not apply.”
+
+### User Resolution Options
+- Increase bearing diameter
+- Select a larger wire rope sling
+- Change hitch configuration
+- Use a spreader bar or lift beam
+
+---
+
+## FLOW 12 — Shackle Load Determination
+
+Each shackle load is calculated by summing all sling tensions terminating at that shackle.
+
+---
+
+## FLOW 13 — Shackle Selection
+
+Only **carbon steel shackles with a 6:1 design factor** are permitted.
+
+The selected shackle must have a WLL **≥ applied shackle load or ≥ sling WLL**, as applicable.
+
+No additional safety factors are applied to shackles.
+
+---
+
+## FLOW 14 — Weight Accumulation
+
+All sling, shackle, and bar or beam weights are added to the crane hook load.
 
 Bar or beam weight is mandatory and may not be estimated.
 
 ---
 
-## FLOW 15 — Hook Height & Clearance (Informational Only)
+## FLOW 15 — Hook Height & Clearance
 
-Hook height is derived for awareness and clearance only.
+Hook height is calculated for informational and clearance purposes only.
 
-Hook height never governs:
-- Sling geometry  
-- Sling angle  
-- Sling sizing  
-- Shackle sizing  
+Hook height never governs sling geometry, angles, or selection.
 
 ---
 
-## FLOW 16 — Audit & Governing Summary (Locked)
+## FLOW 16 — Audit & Governing Summary
 
-Display per crane:
-- Bottom rigging table  
-- Top rigging table  
-- Hardware table  
+For each crane, the app presents:
+- Bottom rigging summary
+- Top rigging summary
+- Hardware summary
 
-Explicitly identify:
-- Governing sling  
-- Governing angle  
-- Governing hardware  
-- Any shared-shackle governing condition  
+The governing condition is explicitly identified with the statement:
 
-Always display:
-- “This is what limits the lift.”  
-- “Load acceptability and lug integrity are the user’s responsibility.”
+**“This is what limits the lift.”**
+
+The following disclaimer is always displayed:
+
+**“Load acceptability and lug integrity are the user’s responsibility.”**
+
+---
