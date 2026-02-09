@@ -72,3 +72,49 @@ describe("runRiggingEngine — safety enforcement", () => {
     );
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — governing leg determination
+ * ---------------------------------------------------------------------
+ * These tests verify that unequal geometry produces unequal tensions
+ * and that the governing leg is correctly identified and reported.
+ */
+
+describe("runRiggingEngine — governing leg determination", () => {
+  it("identifies the governing leg in an asymmetric 2-leg lift", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 8000,
+
+      pickPoints: [
+        { x: -3, y: 0, z: 0 },   // shorter horizontal distance
+        { x:  7, y: 0, z: 0 }    // longer horizontal distance → flatter angle
+      ],
+
+      slingLengthFt: 10,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      }
+    });
+
+    expect(result.legs).toHaveLength(2);
+
+    const leftLeg  = result.legs[0];
+    const rightLeg = result.legs[1];
+
+    // Tensions must NOT be equal
+    expect(leftLeg.tensionLb).not.toBeCloseTo(rightLeg.tensionLb, 1);
+
+    // The leg with the flatter angle must govern
+    expect(result.governingLegIndex).toBeDefined();
+    expect(result.legs[result.governingLegIndex].tensionLb)
+      .toBeGreaterThan(
+        result.legs[1 - result.governingLegIndex].tensionLb
+      );
+
+    expect(result.governingSummary)
+      .toContain("This is what limits the lift");
+  });
+});
