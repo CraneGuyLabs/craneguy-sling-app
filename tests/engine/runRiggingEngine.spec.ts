@@ -167,3 +167,48 @@ describe("runRiggingEngine — lateral pressure mitigation", () => {
       .toContain("Lateral pressure");
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — mitigation cap enforcement
+ * ---------------------------------------------------------------------
+ * These tests verify that longer-sling mitigation is capped at 40 ft
+ * and that a beam is required when lateral pressure cannot be reduced.
+ */
+
+describe("runRiggingEngine — mitigation cap enforcement", () => {
+  it("requires a beam when lateral pressure cannot be mitigated within 40 ft sling length", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 20000,
+
+      pickPoints: [
+        { x: -15, y: 0, z: 0 },
+        { x:  15, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 10, // very short relative to span
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      }
+    });
+
+    /**
+     * Geometry is so wide that even maximum sling length
+     * cannot reduce lateral pressure to acceptable limits.
+     */
+
+    expect(result.lateralPressure).toBeDefined();
+    expect(result.lateralPressure.percent).toBeGreaterThan(10);
+
+    expect(result.mitigation).toBeDefined();
+    expect(result.mitigation.type).toBe("beam_required");
+
+    expect(result.mitigation.reason)
+      .toContain("40 ft");
+
+    expect(result.governingSummary)
+      .toContain("Spreader bar");
+  });
+});
