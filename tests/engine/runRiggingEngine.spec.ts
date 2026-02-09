@@ -324,3 +324,49 @@ describe("runRiggingEngine — shackle sizing", () => {
     expect(leg.shackle.connectionFactor).toBe(1.25);
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — shackle material and minimum size enforcement
+ * ---------------------------------------------------------------------
+ * These tests verify that:
+ * - Only carbon steel shackles are used
+ * - Minimum shackle size is enforced (0.5-ton)
+ * - No alloy shackles are ever selected
+ */
+
+describe("runRiggingEngine — shackle material and minimum size enforcement", () => {
+  it("enforces minimum 0.5-ton carbon steel shackle regardless of low tension", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 2000, // intentionally light load
+
+      pickPoints: [
+        { x: -2, y: 0, z: 0 },
+        { x:  2, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 8,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      }
+    });
+
+    expect(result.legs).toHaveLength(2);
+
+    const leg = result.legs[0];
+
+    expect(leg.shackle).toBeDefined();
+
+    // Minimum shackle size rule
+    expect(leg.shackle.nominalSize)
+      .toBeGreaterThanOrEqual(0.5);
+
+    // Carbon steel only
+    expect(leg.shackle.material).toBe("carbon_steel");
+
+    // Alloy shackles must never appear
+    expect(leg.shackle.material).not.toBe("alloy");
+  });
+});
