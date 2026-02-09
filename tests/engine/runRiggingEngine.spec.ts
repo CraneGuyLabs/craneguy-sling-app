@@ -212,3 +212,59 @@ describe("runRiggingEngine — mitigation cap enforcement", () => {
       .toContain("Spreader bar");
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — top vs bottom rigging independence
+ * ---------------------------------------------------------------------
+ * These tests verify that bottom rigging is evaluated independently
+ * of top rigging and that top rigging does not mask bottom rigging limits.
+ */
+
+describe("runRiggingEngine — top rigging independence", () => {
+  it("evaluates top rigging independently without altering bottom rigging results", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 18000,
+
+      // Bottom rigging — VALID geometry
+      pickPoints: [
+        { x: -6, y: 0, z: 0 },
+        { x:  6, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 14,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      },
+
+      // Top rigging — intentionally flatter / governing
+      topRigging: {
+        pickPoints: [
+          { x: -10, y: 0, z: 0 },
+          { x:  10, y: 0, z: 0 }
+        ],
+        slingLengthFt: 12,
+        legs: 2
+      }
+    });
+
+    /**
+     * Bottom rigging must remain valid and unchanged.
+     * Top rigging may govern overall configuration.
+     */
+
+    expect(result.bottomRigging).toBeDefined();
+    expect(result.bottomRigging.valid).toBe(true);
+
+    expect(result.topRigging).toBeDefined();
+    expect(result.topRigging.valid).toBe(false);
+
+    expect(result.governingSummary)
+      .toContain("Top rigging");
+
+    expect(result.governingSummary)
+      .toContain("This is what limits the lift");
+  });
+});
