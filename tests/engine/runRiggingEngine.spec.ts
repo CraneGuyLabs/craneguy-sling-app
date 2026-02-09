@@ -533,3 +533,52 @@ describe("runRiggingEngine — sling material preference", () => {
     expect(leg.sling.material).toBe("wire_rope");
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — top rigging minimum angle enforcement
+ * ---------------------------------------------------------------------
+ * These tests verify that top rigging slings connected above the load
+ * or above a spreader bar must meet a ≥60° minimum angle requirement.
+ */
+
+describe("runRiggingEngine — top rigging minimum angle enforcement", () => {
+  it("blocks a lift when top rigging sling angle is below 60°", () => {
+    const badTopRigging = {
+      loadWeightLb: 14000,
+
+      // Bottom rigging — VALID
+      pickPoints: [
+        { x: -5, y: 0, z: 0 },
+        { x:  5, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 12,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      },
+
+      // Top rigging — intentionally too flat (<60°)
+      topRigging: {
+        pickPoints: [
+          { x: -12, y: 0, z: 0 },
+          { x:  12, y: 0, z: 0 }
+        ],
+        slingLengthFt: 14,
+        legs: 2
+      }
+    };
+
+    /**
+     * Bottom rigging is acceptable.
+     * Top rigging violates the ≥60° minimum angle rule.
+     * The engine must BLOCK the lift.
+     */
+
+    expect(() => runRiggingEngine(badTopRigging)).toThrow(
+      "Invalid top rigging configuration"
+    );
+  });
+});
