@@ -2,13 +2,15 @@
   "table_id": "craneguy_sling_table_v1",
   "units": {
     "wll": "lb",
-    "weight": "lb_per_ft"
+    "weight": "lb_per_ft",
+    "reference_tonnage": "short_ton_2000lb"
   },
   "selection_rule": {
     "required_load_formula": "calculated_sling_tension",
     "selection_method": "first_row_with_wll_greater_or_equal"
   },
   "categories": {
+
     "synthetic_round": {
       "description": "Synthetic round slings, vertical rating",
       "rows": [
@@ -44,18 +46,39 @@
     },
 
     "wire_rope": {
-      "description": "Wire rope slings, 6x19 / 6x36 EIPS, vertical rating",
+      "description": "Wire rope slings, nominal sling strength (6x19 / 6x37 EIPS)",
+      "notes": "Nominal capacities shown in tons (2,000 lb). App logic uses pounds-first.",
       "rows": [
-        { "nominal_diameter_in": "1/2",   "wll_lb": 8600,  "weight_lb_per_ft": 0.85 },
-        { "nominal_diameter_in": "5/8",   "wll_lb": 13200, "weight_lb_per_ft": 1.45 },
-        { "nominal_diameter_in": "3/4",   "wll_lb": 19600, "weight_lb_per_ft": 2.20 },
-        { "nominal_diameter_in": "7/8",   "wll_lb": 26600, "weight_lb_per_ft": 3.00 },
-        { "nominal_diameter_in": "1",     "wll_lb": 34200, "weight_lb_per_ft": 3.90 },
-        { "nominal_diameter_in": "1-1/8", "wll_lb": 43200, "weight_lb_per_ft": 5.00 },
-        { "nominal_diameter_in": "1-1/4", "wll_lb": 53200, "weight_lb_per_ft": 6.40 },
-        { "nominal_diameter_in": "1-1/2", "wll_lb": 72000, "weight_lb_per_ft": 9.30 },
-        { "nominal_diameter_in": "1-3/4", "wll_lb": 96000, "weight_lb_per_ft": 12.70 },
-        { "nominal_diameter_in": "2",     "wll_lb": 120000,"weight_lb_per_ft": 16.60 }
+        { "nominal_diameter_in": "1/4",   "vertical_ton": 0.65, "choker_ton": 0.48, "basket_ton": 1.3,  "weight_lb_per_ft": 0.10 },
+        { "nominal_diameter_in": "5/16",  "vertical_ton": 1.0,  "choker_ton": 0.74, "basket_ton": 2.0,  "weight_lb_per_ft": 0.19 },
+        { "nominal_diameter_in": "3/8",   "vertical_ton": 1.4,  "choker_ton": 1.1,  "basket_ton": 2.9,  "weight_lb_per_ft": 0.31 },
+        { "nominal_diameter_in": "7/16",  "vertical_ton": 1.9,  "choker_ton": 1.4,  "basket_ton": 3.9,  "weight_lb_per_ft": 0.38 },
+        { "nominal_diameter_in": "1/2",   "vertical_ton": 2.5,  "choker_ton": 1.9,  "basket_ton": 5.1,  "weight_lb_per_ft": 0.72 },
+        { "nominal_diameter_in": "9/16",  "vertical_ton": 3.2,  "choker_ton": 2.4,  "basket_ton": 6.4,  "weight_lb_per_ft": 1.02 },
+        { "nominal_diameter_in": "5/8",   "vertical_ton": 3.9,  "choker_ton": 2.9,  "basket_ton": 7.8,  "weight_lb_per_ft": 1.37 },
+        { "nominal_diameter_in": "3/4",   "vertical_ton": 5.6,  "choker_ton": 4.1,  "basket_ton": 11,   "weight_lb_per_ft": 2.20 },
+        { "nominal_diameter_in": "7/8",   "vertical_ton": 7.6,  "choker_ton": 5.6,  "basket_ton": 15,   "weight_lb_per_ft": 3.00 },
+        { "nominal_diameter_in": "1",     "vertical_ton": 9.8,  "choker_ton": 7.2,  "basket_ton": 20,   "weight_lb_per_ft": 3.90 },
+        { "nominal_diameter_in": "1-1/8", "vertical_ton": 12,   "choker_ton": 9.1,  "basket_ton": 24,   "weight_lb_per_ft": 5.00 },
+        { "nominal_diameter_in": "1-1/4", "vertical_ton": 15,   "choker_ton": 11,   "basket_ton": 30,   "weight_lb_per_ft": 6.40 },
+        { "nominal_diameter_in": "1-3/8", "vertical_ton": 18,   "choker_ton": 13,   "basket_ton": 36,   "weight_lb_per_ft": 8.10 },
+        { "nominal_diameter_in": "1-1/2", "vertical_ton": 21,   "choker_ton": 16,   "basket_ton": 42,   "weight_lb_per_ft": 9.30 },
+        { "nominal_diameter_in": "1-5/8", "vertical_ton": 24,   "choker_ton": 18,   "basket_ton": 49,   "weight_lb_per_ft": 11.90 },
+        { "nominal_diameter_in": "1-3/4", "vertical_ton": 28,   "choker_ton": 21,   "basket_ton": 57,   "weight_lb_per_ft": 12.70 },
+        { "nominal_diameter_in": "1-7/8", "vertical_ton": 32,   "choker_ton": 24,   "basket_ton": 64,   "weight_lb_per_ft": 14.80 },
+        { "nominal_diameter_in": "2",     "vertical_ton": 37,   "choker_ton": 28,   "basket_ton": 73,   "weight_lb_per_ft": 16.60 },
+        { "nominal_diameter_in": "2-1/8", "vertical_ton": 40,   "choker_ton": 31,   "basket_ton": 80,   "weight_lb_per_ft": 18.90 },
+        { "nominal_diameter_in": "2-1/4", "vertical_ton": 44,   "choker_ton": 35,   "basket_ton": 89,   "weight_lb_per_ft": 21.50 },
+        { "nominal_diameter_in": "2-3/8", "vertical_ton": 49,   "choker_ton": 38,   "basket_ton": 99,   "weight_lb_per_ft": 24.30 },
+        { "nominal_diameter_in": "2-1/2", "vertical_ton": 54,   "choker_ton": 42,   "basket_ton": 109,  "weight_lb_per_ft": 27.50 },
+        { "nominal_diameter_in": "2-5/8", "vertical_ton": 60,   "choker_ton": 46,   "basket_ton": 119,  "weight_lb_per_ft": 30.40 },
+        { "nominal_diameter_in": "2-3/4", "vertical_ton": 65,   "choker_ton": 51,   "basket_ton": 130,  "weight_lb_per_ft": 33.60 },
+        { "nominal_diameter_in": "2-7/8", "vertical_ton": 71,   "choker_ton": 55,   "basket_ton": 141,  "weight_lb_per_ft": 36.90 },
+        { "nominal_diameter_in": "3",     "vertical_ton": 77,   "choker_ton": 60,   "basket_ton": 153,  "weight_lb_per_ft": 40.30 },
+        { "nominal_diameter_in": "3-1/8", "vertical_ton": 82,   "choker_ton": 64,   "basket_ton": 165,  "weight_lb_per_ft": 44.00 },
+        { "nominal_diameter_in": "3-1/4", "vertical_ton": 89,   "choker_ton": 69,   "basket_ton": 177,  "weight_lb_per_ft": 47.90 },
+        { "nominal_diameter_in": "3-3/8", "vertical_ton": 95,   "choker_ton": 74,   "basket_ton": 190,  "weight_lb_per_ft": 52.10 },
+        { "nominal_diameter_in": "3-1/2", "vertical_ton": 102,  "choker_ton": 79,   "basket_ton": 203,  "weight_lb_per_ft": 56.40 }
       ]
     },
 
@@ -82,5 +105,6 @@
         { "chain_size_in": "3/4", "wll_lb": 35300, "weight_lb_per_ft": 6.20 }
       ]
     }
+
   }
 }
