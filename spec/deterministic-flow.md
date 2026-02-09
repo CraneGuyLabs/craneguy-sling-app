@@ -10,7 +10,7 @@ Below-the-hook rigging only.
 
 Crane selection, crane capacity, setup, operation, swing, ground conditions, and personnel qualification remain the user’s responsibility.
 
-The Sling App evaluates below-the-hook rigging geometry, forces, and hardware only.
+The Sling App evaluates below-the-hook rigging geometry, forces, **material selection**, and hardware only.
 
 ---
 
@@ -29,7 +29,7 @@ Select:
 
 Each crane is evaluated in a fully independent calculation context.
 
-- Geometry, sling length, sling angle, sling tension, and hardware sizing never propagate between cranes  
+- Geometry, sling length, sling angle, sling tension, **material selection**, and hardware sizing never propagate between cranes  
 - Only load allocation may reference other cranes  
 
 ---
@@ -69,12 +69,75 @@ For each sling leg:
 
 ---
 
-## FLOW 5 — Sling Definition (Locked)
+## FLOW 5 — Sling Definition & Material Selection (Locked)
 
 Define sling type per leg.
 
 - Bottom rigging and top rigging are defined separately  
 - Effective bearing-to-bearing length includes all hidden geometry adjustments  
+
+---
+
+### FLOW 5A — Edge Condition Declaration (Locked)
+
+User must declare edge condition:
+
+**Edge Condition**
+- ☐ No sharp edges (default)  
+- ☐ Sharp edges present  
+
+This declaration is authoritative for material selection.
+
+---
+
+### FLOW 5B — Material Selection Preference (Locked)
+
+#### Normal Conditions (No Sharp Edges)
+
+When **Sharp Edges = FALSE**, the app recommends slings in the following order:
+
+1. Synthetic round slings  
+2. **Steel slings (wire rope)**  
+3. Chain slings  
+
+This order affects recommendations only and never overrides safety gates.
+
+---
+
+#### Sharp-Edge Conditions
+
+When **Sharp Edges = TRUE**, the app enforces the following preference:
+
+1. **Steel slings (wire rope)**  
+2. Chain slings  
+3. Synthetic slings (lowest priority)  
+
+Rules:
+- Synthetic slings are not preferred  
+- Synthetic slings may still be displayed  
+- Selecting a synthetic sling requires:
+  - Explicit user override  
+  - A clear warning  
+
+**Required warning text (or equivalent):**
+
+> “Sharp edges detected. Steel (wire rope) slings or chain slings are preferred. Synthetic slings require adequate edge protection and user acceptance.”
+
+The app must never assume edge protection is present.
+
+---
+
+### FLOW 5C — Terminology Normalization (Locked)
+
+- The term **“steel choker(s)”** is accepted as universal field terminology  
+- “Steel choker(s)” refers to **wire rope slings**, regardless of configuration  
+- The term does **not** imply a choker hitch  
+
+Sling configuration (vertical / basket / choker):
+- Is selected independently  
+- Is governed later by geometry and rules  
+
+This rule applies to UI, PDFs, training material, and internal logic.
 
 ---
 
@@ -109,9 +172,7 @@ Violations block the lift.
 ## FLOW 8 — Sling Tension Calculation (Locked)
 
 For each sling leg:
-
 T = W_assigned / sin(theta)
-
 - Calculated per sling leg  
 - Identify governing sling leg per crane  
 - Governing status is informational only and does not propagate sizing  
@@ -148,9 +209,15 @@ For each sling leg (top and bottom), display:
 - Minimum required sling WLL  
 - Recommended sling WLL  
 
+Material preference is applied **before** capacity selection.
+
+---
+
 ### FLOW 11A — Minimum Sling Requirement
 
 Sling WLL must be greater than or equal to calculated sling tension.
+
+---
 
 ### FLOW 11B — Recommended Sling (1.5× Rule)
 
@@ -170,6 +237,8 @@ Rules:
 
 For each shackle:
 - Sum all terminating sling leg tensions  
+
+---
 
 ### FLOW 12B — Shared Load-Side Shackle Aggregation
 
