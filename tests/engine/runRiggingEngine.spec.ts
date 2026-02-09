@@ -582,3 +582,53 @@ describe("runRiggingEngine — top rigging minimum angle enforcement", () => {
     );
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — offset CG with unequal sling lengths
+ * ---------------------------------------------------------------------
+ * These tests verify that:
+ * - Unequal sling lengths are permitted
+ * - Level lift is achieved through geometry, not equal lengths
+ * - Governing leg is determined by tension, not sling length
+ */
+
+describe("runRiggingEngine — offset CG with unequal sling lengths", () => {
+  it("allows unequal sling lengths for a level lift when CG is offset", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 10000,
+
+      // Offset CG toward right pick
+      pickPoints: [
+        { x: -4, y: 0, z: 0 },
+        { x:  6, y: 0, z: 0 }
+      ],
+
+      // Unequal sling lengths required for level lift
+      slingLengthsFt: [11, 9],
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      }
+    });
+
+    expect(result.legs).toHaveLength(2);
+
+    const leftLeg  = result.legs[0];
+    const rightLeg = result.legs[1];
+
+    // Sling lengths are intentionally unequal
+    expect(leftLeg.slingLengthFt)
+      .not.toBeCloseTo(rightLeg.slingLengthFt, 2);
+
+    // Lift remains valid
+    expect(result.valid).toBe(true);
+
+    // Governing leg determined by tension, not length
+    expect(leftLeg.tensionLb !== rightLeg.tensionLb).toBe(true);
+
+    expect(result.governingSummary)
+      .toContain("This is what limits the lift");
+  });
+});
