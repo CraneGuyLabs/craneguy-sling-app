@@ -27,3 +27,29 @@ describe("runRiggingEngine — baseline behavior", () => {
       .toContain("This is what limits the lift");
   });
 });
+it("blocks a lift when bottom sling angle is below the minimum allowed", () => {
+  const badInput = {
+    loadWeightLb: 12000,
+
+    pickPoints: [
+      { x: -10, y: 0, z: 0 },
+      { x:  10, y: 0, z: 0 }
+    ],
+
+    slingLengthFt: 12,
+
+    configuration: {
+      legs: 2,
+      hitch: "vertical"
+    }
+  };
+
+  /**
+   * Geometry produces an angle well below the minimum threshold.
+   * This configuration must be rejected outright.
+   */
+
+  expect(() => runRiggingEngine(badInput)).toThrow(
+    "Invalid bottom rigging configuration"
+  );
+});
