@@ -118,3 +118,52 @@ describe("runRiggingEngine — governing leg determination", () => {
       .toContain("This is what limits the lift");
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — lateral pressure mitigation
+ * ---------------------------------------------------------------------
+ * These tests verify that excessive lateral pressure triggers
+ * automatic longer-sling mitigation before requiring a bar.
+ */
+
+describe("runRiggingEngine — lateral pressure mitigation", () => {
+  it("automatically evaluates longer slings when lateral pressure exceeds 10%", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 15000,
+
+      pickPoints: [
+        { x: -8, y: 0, z: 0 },
+        { x:  8, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 8, // intentionally short to create side load
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      }
+    });
+
+    /**
+     * Initial configuration must exceed lateral pressure limits.
+     * Engine should automatically attempt longer sling mitigation.
+     */
+
+    expect(result.lateralPressure).toBeDefined();
+    expect(result.lateralPressure.percent).toBeGreaterThan(10);
+
+    expect(result.mitigation).toBeDefined();
+    expect(result.mitigation.type).toBe("longer_slings");
+
+    expect(result.mitigation.options.length).toBeGreaterThan(0);
+
+    const option = result.mitigation.options[0];
+
+    expect(option.slingLengthFt).toBeGreaterThan(8);
+    expect(option.lateralPressure.percent).toBeLessThanOrEqual(10);
+
+    expect(result.governingSummary)
+      .toContain("Lateral pressure");
+  });
+});
