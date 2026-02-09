@@ -417,3 +417,54 @@ describe("runRiggingEngine — shackle connection factor enforcement", () => {
     expect(leg.shackle.appliedFactor).toBe(1.25);
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — shackle sizing from sling WLL
+ * ---------------------------------------------------------------------
+ * These tests verify that when a shackle is selected
+ * to match a sling's rated capacity:
+ * - NO 1.25× connection factor is applied
+ * - Shackle WLL >= sling WLL exactly
+ */
+
+describe("runRiggingEngine — shackle sizing from sling WLL", () => {
+  it("does NOT apply a 1.25× factor when sizing shackle from sling WLL", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 12000,
+
+      pickPoints: [
+        { x: -6, y: 0, z: 0 },
+        { x:  6, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 12,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      }
+    });
+
+    const leg = result.legs[0];
+
+    expect(leg.sling).toBeDefined();
+    expect(leg.shackle).toBeDefined();
+
+    /**
+     * Shackle must be selected to match sling WLL,
+     * not sling tension.
+     */
+    expect(leg.shackle.selectionBasis)
+      .toBe("sling_wll");
+
+    expect(leg.shackle.requiredCapacityLb)
+      .toBe(leg.sling.wllLb);
+
+    /**
+     * Explicitly confirm NO connection factor was applied.
+     */
+    expect(leg.shackle.appliedFactor)
+      .toBe(1);
+  });
+});
