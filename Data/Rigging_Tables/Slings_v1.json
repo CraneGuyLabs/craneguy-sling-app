@@ -9,84 +9,78 @@
     "selection_method": "first_row_with_wll_greater_or_equal"
   },
   "categories": {
-
-   {
-  "synthetic_round": {
-    "description": "Synthetic round slings, vertical rating",
-    "rows": [
-      { "rated_capacity_lb": 2000,  "rated_capacity_ton": 1,   "wll_lb": 2000,  "weight_lb_per_ft": 0.20, "notes": "Purple" },
-      { "rated_capacity_lb": 4000,  "rated_capacity_ton": 2,   "wll_lb": 4000,  "weight_lb_per_ft": 0.30, "notes": "Green" },
-      { "rated_capacity_lb": 6000,  "rated_capacity_ton": 3,   "wll_lb": 6000,  "weight_lb_per_ft": 0.40, "notes": "Yellow" },
-      { "rated_capacity_lb": 8000,  "rated_capacity_ton": 4,   "wll_lb": 8000,  "weight_lb_per_ft": 0.55, "notes": "Tan" },
-      { "rated_capacity_lb": 10000, "rated_capacity_ton": 5,   "wll_lb": 10000, "weight_lb_per_ft": 0.70, "notes": "Red" },
-      { "rated_capacity_lb": 12000, "rated_capacity_ton": 6,   "wll_lb": 12000, "weight_lb_per_ft": 0.90, "notes": "White" },
-      { "rated_capacity_lb": 15000, "rated_capacity_ton": 7.5, "wll_lb": 15000, "weight_lb_per_ft": 1.10, "notes": "Blue" },
-      { "rated_capacity_lb": 20000, "rated_capacity_ton": 10,  "wll_lb": 20000, "weight_lb_per_ft": 1.40, "notes": "Orange" },
-      { "rated_capacity_lb": 25000, "rated_capacity_ton": 12.5,"wll_lb": 25000, "weight_lb_per_ft": 1.80, "notes": "Gray" },
-      { "rated_capacity_lb": 31000, "rated_capacity_ton": 15.5,"wll_lb": 31000, "weight_lb_per_ft": 2.30, "notes": "Brown" },
-
-      { "rated_capacity_lb": 66000, "rated_capacity_ton": 33,  "wll_lb": 66000, "weight_lb_per_ft": 3.40, "notes": "Olive (EN800)" },
-
-      { "rated_capacity_lb": 90000, "rated_capacity_ton": 45,  "wll_lb": 90000, "weight_lb_per_ft": 4.40, "notes": "Black (EN1000)" },
-      { "rated_capacity_lb": 100000,"rated_capacity_ton": 50,  "wll_lb": 100000,"weight_lb_per_ft": 4.80, "notes": "Black (EN1100)" },
-      { "rated_capacity_lb": 110000,"rated_capacity_ton": 55,  "wll_lb": 110000,"weight_lb_per_ft": 5.20, "notes": "Black (EN1200)" }
-    ]
-  }
-}
+    "synthetic_round": {
+      "description": "Synthetic round slings, vertical rating",
+      "rows": [
+        { "rated_capacity_lb": 2000,  "rated_capacity_ton": 1,   "wll_lb": 2000,  "weight_lb_per_ft": 0.20, "notes": "Purple" },
+        { "rated_capacity_lb": 4000,  "rated_capacity_ton": 2,   "wll_lb": 4000,  "weight_lb_per_ft": 0.30, "notes": "Green" },
+        { "rated_capacity_lb": 6000,  "rated_capacity_ton": 3,   "wll_lb": 6000,  "weight_lb_per_ft": 0.40, "notes": "Yellow" },
+        { "rated_capacity_lb": 8000,  "rated_capacity_ton": 4,   "wll_lb": 8000,  "weight_lb_per_ft": 0.55, "notes": "Tan" },
+        { "rated_capacity_lb": 10000, "rated_capacity_ton": 5,   "wll_lb": 10000, "weight_lb_per_ft": 0.70, "notes": "Red" },
+        { "rated_capacity_lb": 12000, "rated_capacity_ton": 6,   "wll_lb": 12000, "weight_lb_per_ft": 0.90, "notes": "White" },
+        { "rated_capacity_lb": 15000, "rated_capacity_ton": 7.5, "wll_lb": 15000, "weight_lb_per_ft": 1.10, "notes": "Blue" },
+        { "rated_capacity_lb": 20000, "rated_capacity_ton": 10,  "wll_lb": 20000, "weight_lb_per_ft": 1.40, "notes": "Orange" },
+        { "rated_capacity_lb": 25000, "rated_capacity_ton": 12.5,"wll_lb": 25000, "weight_lb_per_ft": 1.80, "notes": "Gray" },
+        { "rated_capacity_lb": 31000, "rated_capacity_ton": 15.5,"wll_lb": 31000, "weight_lb_per_ft": 2.30, "notes": "Brown" },
+        { "rated_capacity_lb": 66000, "rated_capacity_ton": 33,  "wll_lb": 66000, "weight_lb_per_ft": 3.40, "notes": "Olive (EN800)" },
+        { "rated_capacity_lb": 90000, "rated_capacity_ton": 45,  "wll_lb": 90000, "weight_lb_per_ft": 4.40, "notes": "Black (EN1000)" },
+        { "rated_capacity_lb": 100000,"rated_capacity_ton": 50,  "wll_lb": 100000,"weight_lb_per_ft": 4.80, "notes": "Black (EN1100)" },
+        { "rated_capacity_lb": 110000,"rated_capacity_ton": 55,  "wll_lb": 110000,"weight_lb_per_ft": 5.20, "notes": "Black (EN1200)" }
+      ]
+    },
 
     "synthetic_web": {
       "description": "Synthetic web slings, vertical rating",
       "rows": [
-        { "rated_capacity_lb": 3200,  "rated_capacity_ton": 1.6, "wll_lb": 3200,  "weight_lb_per_ft": 0.25, "notes": null },
-        { "rated_capacity_lb": 5300,  "rated_capacity_ton": 2.65,"wll_lb": 5300,  "weight_lb_per_ft": 0.35, "notes": null },
-        { "rated_capacity_lb": 6400,  "rated_capacity_ton": 3.2, "wll_lb": 6400,  "weight_lb_per_ft": 0.45, "notes": null },
-        { "rated_capacity_lb": 8400,  "rated_capacity_ton": 4.2, "wll_lb": 8400,  "weight_lb_per_ft": 0.60, "notes": null },
-        { "rated_capacity_lb": 10600, "rated_capacity_ton": 5.3, "wll_lb": 10600, "weight_lb_per_ft": 0.75, "notes": null },
-        { "rated_capacity_lb": 12800, "rated_capacity_ton": 6.4, "wll_lb": 12800, "weight_lb_per_ft": 0.95, "notes": null },
-        { "rated_capacity_lb": 17000, "rated_capacity_ton": 8.5, "wll_lb": 17000, "weight_lb_per_ft": 1.20, "notes": null },
-        { "rated_capacity_lb": 21200, "rated_capacity_ton": 10.6,"wll_lb": 21200, "weight_lb_per_ft": 1.50, "notes": null }
+        { "rated_capacity_lb": 3200,  "rated_capacity_ton": 1.6, "wll_lb": 3200,  "weight_lb_per_ft": 0.25 },
+        { "rated_capacity_lb": 5300,  "rated_capacity_ton": 2.65,"wll_lb": 5300,  "weight_lb_per_ft": 0.35 },
+        { "rated_capacity_lb": 6400,  "rated_capacity_ton": 3.2, "wll_lb": 6400,  "weight_lb_per_ft": 0.45 },
+        { "rated_capacity_lb": 8400,  "rated_capacity_ton": 4.2, "wll_lb": 8400,  "weight_lb_per_ft": 0.60 },
+        { "rated_capacity_lb": 10600, "rated_capacity_ton": 5.3, "wll_lb": 10600, "weight_lb_per_ft": 0.75 },
+        { "rated_capacity_lb": 12800, "rated_capacity_ton": 6.4, "wll_lb": 12800, "weight_lb_per_ft": 0.95 },
+        { "rated_capacity_lb": 17000, "rated_capacity_ton": 8.5, "wll_lb": 17000, "weight_lb_per_ft": 1.20 },
+        { "rated_capacity_lb": 21200, "rated_capacity_ton": 10.6,"wll_lb": 21200, "weight_lb_per_ft": 1.50 }
       ]
     },
 
     "wire_rope": {
       "description": "Wire rope slings, 6x19 / 6x36 EIPS, vertical rating",
       "rows": [
-        { "nominal_diameter_in": "1/2",   "wll_lb": 8600,  "weight_lb_per_ft": 0.85, "notes": null },
-        { "nominal_diameter_in": "5/8",   "wll_lb": 13200, "weight_lb_per_ft": 1.45, "notes": null },
-        { "nominal_diameter_in": "3/4",   "wll_lb": 19600, "weight_lb_per_ft": 2.20, "notes": null },
-        { "nominal_diameter_in": "7/8",   "wll_lb": 26600, "weight_lb_per_ft": 3.00, "notes": null },
-        { "nominal_diameter_in": "1",     "wll_lb": 34200, "weight_lb_per_ft": 3.90, "notes": null },
-        { "nominal_diameter_in": "1-1/8", "wll_lb": 43200, "weight_lb_per_ft": 5.00, "notes": null },
-        { "nominal_diameter_in": "1-1/4", "wll_lb": 53200, "weight_lb_per_ft": 6.40, "notes": null },
-        { "nominal_diameter_in": "1-1/2", "wll_lb": 72000, "weight_lb_per_ft": 9.30, "notes": null },
-        { "nominal_diameter_in": "1-3/4", "wll_lb": 96000, "weight_lb_per_ft": 12.70,"notes": null },
-        { "nominal_diameter_in": "2",     "wll_lb": 120000,"weight_lb_per_ft": 16.60,"notes": null }
+        { "nominal_diameter_in": "1/2",   "wll_lb": 8600,  "weight_lb_per_ft": 0.85 },
+        { "nominal_diameter_in": "5/8",   "wll_lb": 13200, "weight_lb_per_ft": 1.45 },
+        { "nominal_diameter_in": "3/4",   "wll_lb": 19600, "weight_lb_per_ft": 2.20 },
+        { "nominal_diameter_in": "7/8",   "wll_lb": 26600, "weight_lb_per_ft": 3.00 },
+        { "nominal_diameter_in": "1",     "wll_lb": 34200, "weight_lb_per_ft": 3.90 },
+        { "nominal_diameter_in": "1-1/8", "wll_lb": 43200, "weight_lb_per_ft": 5.00 },
+        { "nominal_diameter_in": "1-1/4", "wll_lb": 53200, "weight_lb_per_ft": 6.40 },
+        { "nominal_diameter_in": "1-1/2", "wll_lb": 72000, "weight_lb_per_ft": 9.30 },
+        { "nominal_diameter_in": "1-3/4", "wll_lb": 96000, "weight_lb_per_ft": 12.70 },
+        { "nominal_diameter_in": "2",     "wll_lb": 120000,"weight_lb_per_ft": 16.60 }
       ]
     },
 
     "chain_g80": {
       "description": "Chain slings, Grade 80, vertical rating",
       "rows": [
-        { "chain_size_in": "1/4", "wll_lb": 3500,  "weight_lb_per_ft": 0.80, "notes": null },
-        { "chain_size_in": "5/16","wll_lb": 4500,  "weight_lb_per_ft": 1.10, "notes": null },
-        { "chain_size_in": "3/8", "wll_lb": 7100,  "weight_lb_per_ft": 1.50, "notes": null },
-        { "chain_size_in": "1/2", "wll_lb": 12000, "weight_lb_per_ft": 2.30, "notes": null },
-        { "chain_size_in": "5/8", "wll_lb": 18100, "weight_lb_per_ft": 3.80, "notes": null },
-        { "chain_size_in": "3/4", "wll_lb": 28300, "weight_lb_per_ft": 5.60, "notes": null }
+        { "chain_size_in": "1/4", "wll_lb": 3500,  "weight_lb_per_ft": 0.80 },
+        { "chain_size_in": "5/16","wll_lb": 4500,  "weight_lb_per_ft": 1.10 },
+        { "chain_size_in": "3/8", "wll_lb": 7100,  "weight_lb_per_ft": 1.50 },
+        { "chain_size_in": "1/2", "wll_lb": 12000, "weight_lb_per_ft": 2.30 },
+        { "chain_size_in": "5/8", "wll_lb": 18100, "weight_lb_per_ft": 3.80 },
+        { "chain_size_in": "3/4", "wll_lb": 28300, "weight_lb_per_ft": 5.60 }
       ]
     },
 
     "chain_g100": {
       "description": "Chain slings, Grade 100, vertical rating",
       "rows": [
-        { "chain_size_in": "1/4", "wll_lb": 4300,  "weight_lb_per_ft": 0.85, "notes": null },
-        { "chain_size_in": "5/16","wll_lb": 5700,  "weight_lb_per_ft": 1.20, "notes": null },
-        { "chain_size_in": "3/8", "wll_lb": 8800,  "weight_lb_per_ft": 1.60, "notes": null },
-        { "chain_size_in": "1/2", "wll_lb": 15000, "weight_lb_per_ft": 2.60, "notes": null },
-        { "chain_size_in": "5/8", "wll_lb": 22600, "weight_lb_per_ft": 4.20, "notes": null },
-        { "chain_size_in": "3/4", "wll_lb": 35300, "weight_lb_per_ft": 6.20, "notes": null }
+        { "chain_size_in": "1/4", "wll_lb": 4300,  "weight_lb_per_ft": 0.85 },
+        { "chain_size_in": "5/16","wll_lb": 5700,  "weight_lb_per_ft": 1.20 },
+        { "chain_size_in": "3/8", "wll_lb": 8800,  "weight_lb_per_ft": 1.60 },
+        { "chain_size_in": "1/2", "wll_lb": 15000, "weight_lb_per_ft": 2.60 },
+        { "chain_size_in": "5/8", "wll_lb": 22600, "weight_lb_per_ft": 4.20 },
+        { "chain_size_in": "3/4", "wll_lb": 35300, "weight_lb_per_ft": 6.20 }
       ]
     }
-
   }
 }
