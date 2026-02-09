@@ -267,4 +267,4 @@ describe("runRiggingEngine — top rigging independence", () => {
     expect(result.governingSummary)
       .toContain("This is what limits the lift");
   });
-});
+});1
