@@ -632,3 +632,53 @@ describe("runRiggingEngine — offset CG with unequal sling lengths", () => {
       .toContain("This is what limits the lift");
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — rigging self-weight accounting
+ * ---------------------------------------------------------------------
+ * These tests verify that the weight of rigging hardware
+ * is included in the total crane load calculation.
+ */
+
+describe("runRiggingEngine — rigging self-weight accounting", () => {
+  it("adds sling and shackle weight to the total lifted load", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 10000,
+
+      pickPoints: [
+        { x: -5, y: 0, z: 0 },
+        { x:  5, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 12,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      }
+    });
+
+    /**
+     * Base load is 10,000 lb.
+     * Total crane load must be GREATER than base load
+     * due to inclusion of rigging weight.
+     */
+
+    expect(result.totalLoadLb).toBeDefined();
+    expect(result.totalLoadLb).toBeGreaterThan(10000);
+
+    // Explicit confirmation that rigging contributes weight
+    expect(result.riggingWeightLb).toBeDefined();
+    expect(result.riggingWeightLb).toBeGreaterThan(0);
+
+    expect(result.totalLoadLb)
+      .toBeCloseTo(
+        10000 + result.riggingWeightLb,
+        1
+      );
+
+    expect(result.governingSummary)
+      .toContain("This is what limits the lift");
+  });
+});
