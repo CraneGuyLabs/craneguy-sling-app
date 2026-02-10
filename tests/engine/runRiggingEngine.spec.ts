@@ -682,3 +682,80 @@ describe("runRiggingEngine — rigging self-weight accounting", () => {
       .toContain("This is what limits the lift");
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — top hook multi-sling load sharing
+ * ---------------------------------------------------------------------
+ * These tests verify that multiple top slings may share load at the hook,
+ * while each sling is still evaluated independently for geometry, angle,
+ * and governing tension.
+ */
+
+describe("runRiggingEngine — top hook multi-sling load sharing", () => {
+  it("allows load sharing across multiple top slings but enforces per-sling rules", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 24000,
+
+      // Bottom rigging — valid and symmetric
+      pickPoints: [
+        { x: -6, y: 0, z: 0 },
+        { x:  6, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 14,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      },
+
+      // Top rigging — two slings sharing load at the hook
+      topRigging: {
+        legs: [
+          {
+            pickPoints: [
+              { x: -4, y: 0, z: 0 },
+              { x:  4, y: 0, z: 0 }
+            ],
+            slingLengthFt: 10
+          },
+          {
+            pickPoints: [
+              { x: -5, y: 0, z: 0 },
+              { x:  5, y: 0, z: 0 }
+            ],
+            slingLengthFt: 11
+          }
+        ]
+      }
+    });
+
+    expect(result.topRigging).toBeDefined();
+    expect(result.topRigging.legs).toHaveLength(2);
+
+    const topLegA = result.topRigging.legs[0];
+    const topLegB = result.topRigging.legs[1];
+
+    // Load sharing is allowed
+    expect(topLegA.tensionLb).toBeGreaterThan(0);
+    expect(topLegB.tensionLb).toBeGreaterThan(0);
+
+    // But tensions are evaluated independently
+    expect(topLegA.tensionLb)
+      .not.toBeCloseTo(topLegB.tensionLb, 1);
+
+    // Each sling must meet top-rigging angle requirements
+    expect(topLegA.angleDeg).toBeGreaterThanOrEqual(60);
+    expect(topLegB.angleDeg).toBeGreaterThanOrEqual(60);
+
+    // Governing leg must be explicitly identified
+    expect(result.topRigging.governingLegIndex).toBeDefined();
+
+    expect(result.governingSummary)
+      .toContain("Top rigging");
+
+    expect(result.governingSummary)
+      .toContain("This is what limits the lift");
+  });
+});
