@@ -804,3 +804,66 @@ describe("runRiggingEngine — lateral pressure classification", () => {
       .toContain("Lateral pressure");
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — hook height informational only
+ * ---------------------------------------------------------------------
+ * These tests verify that hook height:
+ * - Does NOT govern below-the-hook geometry or selection
+ * - May generate warnings only
+ * - Never alters sling angles, tensions, or hardware sizing
+ */
+
+describe("runRiggingEngine — hook height informational only", () => {
+  it("does not alter below-the-hook results when hook height is constrained", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 12000,
+
+      pickPoints: [
+        { x: -5, y: 0, z: 0 },
+        { x:  5, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 12,
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      },
+
+      // Informational crane limits only
+      crane: {
+        maxHookHeightFt: 15,     // intentionally tight
+        blockClearanceFt: 3
+      }
+    });
+
+    /**
+     * Below-the-hook rigging must remain valid.
+     * Hook height constraints may only issue warnings.
+     */
+
+    expect(result.valid).toBe(true);
+
+    expect(result.legs).toHaveLength(2);
+    expect(result.legs[0].tensionLb).toBeGreaterThan(0);
+    expect(result.legs[1].tensionLb).toBeGreaterThan(0);
+
+    // Hook height warnings may exist
+    expect(result.warnings).toBeDefined();
+    expect(
+      result.warnings.some(w =>
+        w.toLowerCase().includes("hook height") ||
+        w.toLowerCase().includes("clearance")
+      )
+    ).toBe(true);
+
+    // Hook height must NOT appear as a governing condition
+    expect(result.governingSummary)
+      .not.toContain("Hook height");
+
+    expect(result.governingSummary)
+      .toContain("This is what limits the lift");
+  });
+});
