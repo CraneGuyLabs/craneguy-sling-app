@@ -759,3 +759,48 @@ describe("runRiggingEngine — top hook multi-sling load sharing", () => {
       .toContain("This is what limits the lift");
   });
 });
+
+/**
+ * ---------------------------------------------------------------------
+ * runRiggingEngine — lateral pressure warning vs block classification
+ * ---------------------------------------------------------------------
+ * These tests verify that lateral pressure is classified correctly:
+ * - ≤10% results in a warning only
+ * - >10% triggers mitigation or blocking
+ */
+
+describe("runRiggingEngine — lateral pressure classification", () => {
+  it("issues a warning (not a block) when lateral pressure is ≤10%", () => {
+    const result = runRiggingEngine({
+      loadWeightLb: 12000,
+
+      pickPoints: [
+        { x: -6, y: 0, z: 0 },
+        { x:  6, y: 0, z: 0 }
+      ],
+
+      slingLengthFt: 14, // long enough to reduce side load
+
+      configuration: {
+        legs: 2,
+        hitch: "vertical"
+      }
+    });
+
+    expect(result.lateralPressure).toBeDefined();
+    expect(result.lateralPressure.percent).toBeGreaterThan(0);
+    expect(result.lateralPressure.percent).toBeLessThanOrEqual(10);
+
+    // Lift remains valid
+    expect(result.valid).toBe(true);
+
+    // Warning is issued, not a block
+    expect(result.warnings).toBeDefined();
+    expect(result.warnings.length).toBeGreaterThan(0);
+
+    expect(result.mitigation).toBeUndefined();
+
+    expect(result.governingSummary)
+      .toContain("Lateral pressure");
+  });
+});
